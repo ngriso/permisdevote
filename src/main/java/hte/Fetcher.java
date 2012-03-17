@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import hte.jersey.ContextResolverForObjectMapper;
 import hte.jpa.CandidateJPA;
+import hte.jpa.TagJPA;
 import hte.voxe.Candidacy;
 import hte.voxe.Candidate;
 import hte.voxe.Election;
@@ -83,9 +84,13 @@ public class Fetcher {
 
     @GET
     @Path("tags")
-    public List<Tag> tags() {
+    public Response tags() {
         String urlTags = "http://voxe.org/api/v1/tags/search";
         List<Tag> tags = client.resource(urlTags).get(VoxeResponses.ResponseTags.class).response;
-        return tags;
+        List<TagJPA> listOfTagJPA = new ArrayList<TagJPA>();        
+        for (Tag tag : tags) {
+            listOfTagJPA.add(TagJPA.build(tag));
+        }
+        return Response.ok().build();
     }
 }
