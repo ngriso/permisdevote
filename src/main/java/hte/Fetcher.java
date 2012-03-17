@@ -24,6 +24,10 @@ public class Fetcher {
         cc.getClasses().add(ContextResolverForObjectMapper.class);
         cc.getClasses().add(JacksonJsonProvider.class);
         cc.getFeatures().put("com.sun.jersey.api.json.POJOMappingFeature", true);
-        return Client.create(cc).resource(election2012URL).accept(MediaType.APPLICATION_JSON_TYPE).get(ResponseElection.class).response.election;
+        Election election = Client.create(cc).resource(election2012URL).accept(MediaType.APPLICATION_JSON_TYPE).get(ResponseElection.class).response.election;
+
+        
+
+        return election;
     }
 }

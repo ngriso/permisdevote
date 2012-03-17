@@ -1,6 +1,6 @@
 package hte;
 
-public class Candidat extends VoxeResource{
+public class Candidate extends VoxeResource{
     String firstName;
     String lastName;
     
