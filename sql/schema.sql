@@ -6,6 +6,11 @@
         primary key (id)
     );
 
+    create table ElecteurJPA (
+        id varchar(255) not null,
+        primary key (id)
+    );
+
     create table PropositionJPA (
         id varchar(255) not null,
         text varchar(255),
