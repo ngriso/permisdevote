@@ -1,5 +1,7 @@
 package hte.jpa;
 
+import hte.voxe.Candidate;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -11,4 +13,11 @@ public class CandidateJPA {
 	private String firstName;
     private String lastName;
 
+    public static CandidateJPA build(Candidate candidate) {
+        CandidateJPA candidateJPA = new CandidateJPA();
+        candidateJPA.id = candidate.id;
+        candidateJPA.firstName = candidate.firstName;
+        candidateJPA.lastName = candidate.lastName;
+        return candidateJPA;
+    }
 }
