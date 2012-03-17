@@ -8,6 +8,7 @@ import org.hsqldb.Server;
 import org.hsqldb.cmdline.SqlTool;
 
 import hte.jpa.CandidateJPA;
+import hte.jpa.ElecteurJPA;
 import hte.jpa.PropositionJPA;
 import hte.jpa.TagJPA;
 
@@ -23,6 +24,7 @@ public final class HibernateHsqlHelper {
                 .addAnnotatedClass(CandidateJPA.class)
                 .addAnnotatedClass(TagJPA.class)
                 .addAnnotatedClass(PropositionJPA.class)
+                .addAnnotatedClass(ElecteurJPA.class)
         
                 .setProperty(Environment.DIALECT, "org.hibernate.dialect.HSQLDialect");
 
