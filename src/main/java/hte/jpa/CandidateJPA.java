@@ -18,6 +18,7 @@ public class CandidateJPA {
         candidateJPA.id = candidate.id;
         candidateJPA.firstName = candidate.firstName;
         candidateJPA.lastName = candidate.lastName;
+        JpaUtil.save(candidateJPA);
         return candidateJPA;
     }
 }

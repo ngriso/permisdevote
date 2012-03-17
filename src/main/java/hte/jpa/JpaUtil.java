@@ -6,12 +6,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JpaUtil {
 
@@ -63,4 +59,15 @@ public class JpaUtil {
         return entityManager.createQuery(query.select(root)).getResultList();
     }
 
+    public static void save(Object entity) {
+        JpaUtil.getEntityManager().persist(entity);
+    }
+
+    public static void delete(Object entity) {
+        JpaUtil.getEntityManager().remove(entity);
+    }
+
+    public static <T> T update(T entity) {
+        return JpaUtil.getEntityManager().merge(entity);
+    }
 }
