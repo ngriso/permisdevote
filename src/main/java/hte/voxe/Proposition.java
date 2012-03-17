@@ -1,4 +1,4 @@
-package hte;
+package hte.voxe;
 
 public class Proposition {
     public String id;

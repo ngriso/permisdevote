@@ -1,7 +1,7 @@
-package hte;
+package hte.voxe;
 
 import java.util.List;
 
 public class Candidacy extends VoxeResource {
-    List<Candidate> candidates;
+    public List<Candidate> candidates;
 }
