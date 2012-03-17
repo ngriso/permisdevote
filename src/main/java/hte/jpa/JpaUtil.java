@@ -5,6 +5,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JpaUtil {
 
@@ -48,4 +55,12 @@ public class JpaUtil {
             releaseEntityManager();
         }
     }
+
+    public static <T> List<T> getAllFrom(Class<T> clazz) {
+        EntityManager entityManager = JpaUtil.getEntityManager();
+        CriteriaQuery<T> query = entityManager.getCriteriaBuilder().createQuery(clazz);
+        Root<T> root = query.from(clazz);
+        return entityManager.createQuery(query.select(root)).getResultList();
+    }
+
 }
