@@ -4,6 +4,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import hte.jersey.ContextResolverForObjectMapper;
+import hte.jpa.CandidateJPA;
 import hte.voxe.Candidacy;
 import hte.voxe.Candidate;
 import hte.voxe.Election;
@@ -16,6 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,23 @@ import java.util.Map;
 public class Fetcher {
 
     private Client client = buildClient();
+
+    @GET
+    @Path("candidates")
+    public Response fetchCandidates() {
+        String election2012URL = "http://voxe.org/api/v1/elections/4f16fe2299c7a10001000012";
+
+        Election election = client.resource(election2012URL).get(VoxeResponses.ResponseElection.class).response.election;
+
+        List<CandidateJPA> candidates = new ArrayList<CandidateJPA>();
+        for (Candidacy candidacy : election.candidacies) {
+            //TODO on considere un candidat par candidature
+            Candidate candidate = candidacy.candidates.get(0);
+            candidates.add(CandidateJPA.build(candidate));
+        }
+
+        return Response.ok().build();
+    }
 
     @GET
     @Path("2012")
