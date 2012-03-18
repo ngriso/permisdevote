@@ -11,6 +11,8 @@
 </head>
 
 <body>
+<input type="text" id="username">
+
 <div class="candidacies"></div>
 
 <div class="themes"></div>
@@ -100,10 +102,12 @@
                 $(":radio").click(function(event) {
                     var value = $(event.currentTarget).val();
                     var questionId = $(".questionText :hidden").attr("data-questionId");
+                    p2v.username = $("#username").val();
                     var answerURL = "/api/questions/" + questionId + "?answer=" + value + "&username=" + p2v.username;
                     console.log(answerURL);
                     $.get(answerURL, function(data) {
                         console.log(data);
+                        p2v.username = $("#username").val();
 
                         $.get("/api/badges/" + p2v.username, function(data) {
                             $(".badges").html($("#badgesTmpl").tmpl(data))
