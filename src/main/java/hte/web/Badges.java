@@ -1,6 +1,7 @@
 package hte.web;
 
 import hte.jpa.CandidacyJPA;
+import hte.jpa.CandidateJPA;
 import hte.jpa.JpaUtil;
 import hte.jpa.ResponseJPA;
 import hte.jpa.TagJPA;
@@ -73,7 +74,9 @@ public class Badges {
         Collections.sort(badgesCandidats, new Comparator<BadgeCandidat>() {
             @Override
             public int compare(BadgeCandidat o1, BadgeCandidat o2) {
-                return o1.candidacy.id.compareTo(o2.candidacy.id);
+    			String lastname1 = ((CandidateJPA) o1.candidacy.candidates.toArray()[0]).lastName;
+    			String lastname2 = ((CandidateJPA) o2.candidacy.candidates.toArray()[0]).lastName;
+                return lastname1.compareTo(lastname2);
             }
         });
         Collections.sort(badgeThemes, new Comparator<BadgeTheme>() {
