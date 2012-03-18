@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Permis de voter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript" charset="utf-8"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+</head>
+
+<body>
+<div class="candidacies"></div>
+
+<div class="themes"></div>
+
+<div class="question">
+    <input type="button" value="Next" id="nextQuestionBtn"/>
+
+    <div class="questionText"></div>
+</div>
+
+<div class="badges"></div>
+
+<script id="badgesTmpl" type="text/x-jquery-tmpl">
+    <ul>
+        {{each badgesCandidats}}
+        <li>{{each candidacy.candidates}} {{= firstName}} {{= lastName}} {{/each}} answer: {{= rights}} / {{= answered}}</li>
+        {{/each}}
+    </ul>
+    <ul>
+        {{each badgeThemes}}
+        <li>{{= theme.name}} answer: {{= rights}} / {{= answered}}</li>
+        {{/each}}
+    </ul>
+</script>
+
+<script id="themesTmpl" type="text/x-jquery-tmpl">
+    <ul>
+        {{each themes}}
+        <li data-id="{{= id}}" data-type="tagId">{{= name}}</li>
+        {{/each}}
+    </ul>
+</script>
+
+<script id="candidaciesTmpl" type="text/x-jquery-tmpl">
+    <ul>
+        {{each candidacies}}
+        <li data-id="{{= id}}" data-type="candidacyId">{{each candidates}} {{= firstName}} {{= lastName}} {{/each}}</li>
+        {{/each}}
+    </ul>
+</script>
+
+<script id="questionTmpl" type="text/x-jquery-tmpl">
+    <input type="hidden" data-questionId="{{= id}}">
+    {{= text}}
+    <label>true
+        <input type="radio" name="answer" value="true">
+    </label>
+    <label>false
+        <input type="radio" name="answer" value="false">
+    </label>
+</script>
+
+</body>
+
+<script type="text/javascript">
+
+    var p2v = {};
+    p2v.model = {};
+    p2v.username = "nicolas";
+
+    $(document).ready(function() {
+
+        $.when(
+                $.get("./api/candidacies/", function(data) {
+                    p2v.model.candidacies = data;
+                }),
+                $.get("./api/tags/level1", function(data) {
+                    p2v.model.themes = data;
+                })
+        ).done(function() {
+                    $(".candidacies").html($("#candidaciesTmpl").tmpl(p2v.model));
+                    $(".themes").html($("#themesTmpl").tmpl(p2v.model));
+
+                    $("li").click(function(event) {
+                        var type = $(event.currentTarget).attr("data-type");
+                        var id = $(event.currentTarget).attr("data-id");
+                        p2v.currentBadge = type + "=" + id;
+                        console.log("Current badge: " + p2v.currentBadge);
+                    });
+                });
+
+        $("#nextQuestionBtn").click(function() {
+            console.log("Next question for: " + p2v.currentBadge);
+            var questionUrl = "/api/questions?" + p2v.currentBadge;
+            $.get(questionUrl, function(data) {
+                $(".questionText").html($("#questionTmpl").tmpl(data));
+                $(":radio").click(function(event) {
+                    var value = $(event.currentTarget).val();
+                    var questionId = $(".questionText :hidden").attr("data-questionId");
+                    var answerURL = "/api/questions/" + questionId + "?answer=" + value + "&username=" + p2v.username;
+                    console.log(answerURL);
+                    $.get(answerURL, function(data) {
+                        console.log(data);
+
+                        $.get("/api/badges/" + p2v.username, function(data) {
+                            $(".badges").html($("#badgesTmpl").tmpl(data))
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+</script>
+</html>

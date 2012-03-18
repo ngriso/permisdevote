@@ -32,7 +32,7 @@
                 <configuration>
                     <webApp>
                         <contextPath>/</contextPath>
-                        <!--<defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>-->
+                        <defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
                     </webApp>
                 </configuration>
             </plugin>
