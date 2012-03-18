@@ -32,10 +32,15 @@ public class Questions {
         return JpaUtil.getAllFrom(QuestionJPA.class);
     }
 
+    @GET
     @Path("{id}")
-    @POST
-    public void answer(@PathParam("id") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
+    public Boolean answer(@PathParam("id") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
+    	Boolean result = null;
+    	
         QuestionJPA questionJPA = JpaUtil.getEntityManager().find(QuestionJPA.class, questionId);
+        if (questionJPA != null && StringUtils.isNotEmpty(answer)) {
+        	result = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
+        }
 
         try {
             ResponseJPA responseJPA = JpaUtil.getEntityManager()
@@ -44,16 +49,17 @@ public class Questions {
                     .setParameter("questionId", questionId)
                     .getSingleResult();
             responseJPA.occurence++;
-            responseJPA.correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
+            responseJPA.correct = result;
             JpaUtil.update(responseJPA);
         } catch (NoResultException e) {
             ResponseJPA responseJPA = new ResponseJPA();
             responseJPA.username = username;
             responseJPA.question = questionJPA;
             responseJPA.occurence++;
-            responseJPA.correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
+            responseJPA.correct = result;
             JpaUtil.save(responseJPA);
         }
+        return result;
     }
 
     @GET
