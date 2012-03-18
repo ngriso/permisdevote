@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Path("questions")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,7 +29,7 @@ public class Questions {
 
     @Path("{id}")
     @POST
-    public void answer(@PathParam("id") Long questionId, @QueryParam("answser") String answser, @QueryParam("username") String username) {
+    public void answer(@PathParam("id") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
         QuestionJPA questionJPA = JpaUtil.getEntityManager().find(QuestionJPA.class, questionId);
 
         try {
@@ -38,22 +39,23 @@ public class Questions {
                     .setParameter("questionId", questionId)
                     .getSingleResult();
             responseJPA.occurence++;
-            responseJPA.correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answser);
+            responseJPA.correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
             JpaUtil.update(responseJPA);
         } catch (NoResultException e) {
             ResponseJPA responseJPA = new ResponseJPA();
             responseJPA.username = username;
             responseJPA.question = questionJPA;
             responseJPA.occurence++;
-            responseJPA.correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answser);
+            responseJPA.correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
             JpaUtil.save(responseJPA);
         }
     }
 
     @GET
-    public List<QuestionJPA> get(@QueryParam("candidacyId") String candidacyId, @QueryParam("tagId") String tagId) {
-        List<QuestionJPA> questionJPAs = new ArrayList<QuestionJPA>();
-
+    public QuestionJPA get(@QueryParam("candidacyId") String candidacyId, @QueryParam("tagId") String tagId) {
+        QuestionJPA result = null;
+        
+    	List<QuestionJPA> questionJPAs = new ArrayList<QuestionJPA>();
         if (StringUtils.isNotBlank(candidacyId)) {
             questionJPAs = JpaUtil.getEntityManager()
                     .createQuery("from QuestionJPA where candidacy.id = :candidacyId", QuestionJPA.class)
@@ -69,9 +71,14 @@ public class Questions {
         }
         
         if (questionJPAs != null && !questionJPAs.isEmpty()) {
-        	
+        	Random random = new Random(questionJPAs.size());
+        	long idChoosed = random.nextLong();
+        	result = JpaUtil.getEntityManager()
+        			.createQuery("from QuestionJPA where id = :idChoosed", QuestionJPA.class)
+                    .setParameter("id", idChoosed)
+                    .getSingleResult();
         }
 
-        return questionJPAs;
+        return result;
     }
 }
