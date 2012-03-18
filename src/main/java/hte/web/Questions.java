@@ -54,14 +54,6 @@ public class Questions {
     public List<QuestionJPA> get(@QueryParam("candidacyId") String candidacyId, @QueryParam("tagId") String tagId) {
         List<QuestionJPA> questionJPAs = new ArrayList<QuestionJPA>();
 
-        if (StringUtils.isNotBlank(candidacyId) && StringUtils.isNotBlank(tagId)) {
-            questionJPAs = JpaUtil.getEntityManager()
-                    .createQuery("from QuestionJPA where candidacy.id = :candidacyId and tagLevel1.id = :tagid", QuestionJPA.class)
-                    .setParameter("candidacyId", candidacyId)
-                    .setParameter("tagid", tagId)
-                    .getResultList();
-        }
-
         if (StringUtils.isNotBlank(candidacyId)) {
             questionJPAs = JpaUtil.getEntityManager()
                     .createQuery("from QuestionJPA where candidacy.id = :candidacyId", QuestionJPA.class)
@@ -74,6 +66,10 @@ public class Questions {
                     .createQuery("from QuestionJPA where tagLevel1.id = :tagId", QuestionJPA.class)
                     .setParameter("tagId", tagId)
                     .getResultList();
+        }
+        
+        if (questionJPAs != null && !questionJPAs.isEmpty()) {
+        	
         }
 
         return questionJPAs;

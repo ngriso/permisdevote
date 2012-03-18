@@ -47,7 +47,7 @@ public final class HibernateHsqlHelper {
         hsqlServer.setLogWriter(new PrintWriter(System.out));
         hsqlServer.setSilent(false);
         hsqlServer.setDatabaseName(0, "");
-        hsqlServer.setDatabasePath(0, "mem:db/xskills");
+        hsqlServer.setDatabasePath(0, "file:db/xskills");
         hsqlServer.start();
 
         String[] args = {
@@ -67,6 +67,30 @@ public final class HibernateHsqlHelper {
 
         System.in.read();
     }
+    
+    public static void startDB() throws Exception {
+        Server hsqlServer = new Server();
+        hsqlServer.setLogWriter(new PrintWriter(System.out));
+        hsqlServer.setSilent(false);
+        hsqlServer.setDatabaseName(0, "");
+        hsqlServer.setDatabasePath(0, "file:db/xskills");
+        hsqlServer.start();
+
+        String[] args = {
+                "--driver=org.hsqldb.jdbcDriver",
+                "--inlineRc=url=jdbc:hsqldb:hsql://localhost/,user=sa,password="};
+        SqlTool.objectMain(args);
+        System.in.read();
+    }
+    
+
+//  
+//  args = new String[]{
+//          "--driver=org.hsqldb.jdbcDriver",
+//          "--inlineRc=url=jdbc:hsqldb:hsql://localhost/,user=sa,password=",
+//          "sql/data.sql"
+//  };
+//  SqlTool.objectMain(args);
 
     public static void fillDB() throws Exception {
         new Fetcher().runFetch();

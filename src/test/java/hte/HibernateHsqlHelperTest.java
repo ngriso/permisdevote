@@ -19,5 +19,10 @@ public class HibernateHsqlHelperTest {
     public void fillDB() throws Exception {
         HibernateHsqlHelper.fillDB();
     }
+    
+    @Test
+    public void startDB() throws Exception {
+        HibernateHsqlHelper.startDB();
+    }
 
 }
