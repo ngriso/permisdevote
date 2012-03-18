@@ -23,4 +23,10 @@ public class TagJPA {
 	    JpaUtil.save(tagJPA);	
 	    return tagJPA;	
 	}
+
+    @Override
+    public String toString() {
+        return id;
+    }
+
 }
