@@ -1,6 +1,5 @@
 package hte.jpa;
 
-import hte.voxe.Candidate;
 import hte.voxe.Tag;
 
 import javax.persistence.Entity;

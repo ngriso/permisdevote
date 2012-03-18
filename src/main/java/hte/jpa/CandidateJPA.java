@@ -11,7 +11,7 @@ public class CandidateJPA {
     @Id
     public String id;
     private String firstName;
-    private String lastName;
+    public String lastName;
 
     public static CandidateJPA build(Candidate candidate) {
         CandidateJPA candidateJPA = new CandidateJPA();

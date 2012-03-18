@@ -1,6 +1,6 @@
 package hte.jpa;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,10 +18,14 @@ public class QuestionJPA {
     @Column(columnDefinition = "VARCHAR(1000000)")
     public String text;
 
+    @JsonIgnore
     public boolean rightAnswer;
-
+    
+    @JsonIgnore
     @ManyToOne
     public CandidacyJPA candidacy;
+    
+    @JsonIgnore
     @ManyToOne
     public TagJPA tagLevel1;
 

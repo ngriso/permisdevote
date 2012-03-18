@@ -18,9 +18,9 @@ public class Tags {
         return JpaUtil.getAllFrom(TagJPA.class);
     }
 
-    @Path("level1")
     @GET
+    @Path("level1")
     public List<TagJPA> getTagLevel1() {
-        return JpaUtil.getEntityManager().createQuery("from TagJPA where level = 1", TagJPA.class).getResultList();
+        return JpaUtil.getEntityManager().createQuery("from TagJPA where level = 1 order by name", TagJPA.class).getResultList();
     }
 }
