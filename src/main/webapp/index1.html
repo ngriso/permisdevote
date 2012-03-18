@@ -1,74 +1,29 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-    <title>Permis de vote</title>
-    <link href="style.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+    <title>Permis de voter</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script type="text/javascript" charset="utf-8"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-
-    <button type="button" id="backtop"><img src="img/btn_top.png" width="40" height="39"/></button>
-
-    <script type="text/javascript">var scrolling = function() {
-        var speed = 1000;
-        jQuery('a[href^="#"]').bind('click', function() {
-            var id = jQuery(this).attr('href');
-            if (id == '#')
-                goTo('body');
-            else
-                goTo(id);
-            return(false);
-        });
-        function goTo(ancre) {
-            jQuery('html,body').animate({scrollTop:jQuery(ancre).offset().top}, speed, 'swing', function() {
-                if (ancre != 'body')
-                    window.location.hash = ancre;
-                else
-                    window.location.hash = '#';
-                jQuery(ancre).attr('tabindex', '-1');
-                jQuery(ancre).focus();
-                jQuery(ancre).removeAttr('tabindex');
-            });
-        }
-    };</script>
 </head>
 
 <body>
+<input type="text" id="username">
 
-<div id="header"><img src="img/share.png" width="137" height="21" alt="share"/></div>
+<div class="candidacies"></div>
 
-<div id="nav">
-    F. HOLLANDE<br/>
-    E. JOLY<br/>JL. MELENCHON<br/>M.LE PEN<br/>N.SARKOZY<br/>N. DUPONT AIGNAN<br/><br/><br/><br/><br/>ENVIRONNEMENT<br/>ECONOMIE<br/>SANTE<br/></div>
+<div class="themes"></div>
 
-<div id="home"><img src="img/logo_bg.png" width="606" height="550" alt="share"/></div>
+<div class="question">
+    <input type="button" value="Next" id="nextQuestionBtn"/>
 
-<div id="compte">
-    <input type="text" id="username">
+    <div class="questionText"></div>
 </div>
 
-<div id="selection">
-    <div class="candidacies"></div>
-
-    <div class="themes"></div>
-</div>
-
-<div id="questions">
-    <div class="question">
-        <input type="button" value="Next" id="nextQuestionBtn"/>
-
-        <div class="questionText"></div>
-    </div>
-</div>
-
-<div id="results">
-    <div class="badges"></div>
-</div>
+<div class="badges"></div>
 
 <script id="badgesTmpl" type="text/x-jquery-tmpl">
     <ul>

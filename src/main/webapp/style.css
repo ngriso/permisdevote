@@ -1,0 +1,112 @@
+@charset "UTF-8";
+/* CSS Document */
+html { 
+  margin:0;
+  padding:0;
+   background: url(img/bg.gif) no-repeat center fixed; 
+  -webkit-background-size: cover; /* pour Chrome et Safari */
+  -moz-background-size: cover; /* pour Firefox */
+  -o-background-size: cover; /* pour Opera */
+  background-size: cover; /* version standardisŽe */
+  vertical-align:middle;
+}
+
+#header{ opacity:0.5; border-bottom-color:#FFF; height:50px;}
+
+
+#home{
+  margin-top:50px;
+  height:900px;
+  margin-right: 200px;
+  opacity:0.5;
+  margin-left:200px;
+  text-align:center;
+  }
+
+
+#nav{
+  font-family: 'Anton', sans-serif;
+  color:#FFF;
+  width:200px;
+  height:900px;
+  float: left;
+  clear: both;
+  position:fixed;
+  margin-top:100px;
+  padding-left:20px;
+  }
+
+
+#compte{
+  height:400px;
+  margin-right: 200px;
+  margin-bottom:300px;
+  background-color:#999;
+  opacity:0.5;
+  margin-left:200px;
+  }
+
+#selection{
+  height:400px;
+  margin-right: 200px;
+  margin-bottom:300px;
+  background-color:#FFF;
+  opacity:0.5;
+  margin-left:200px;
+  }
+
+#questions{
+    height:400px;
+  margin-right: 200px;
+  margin-bottom:300px;
+  background-color:#FFF;
+  opacity:0.5;
+  margin-left:200px;
+  }
+
+#results{  height:400px;
+  margin-right: 200px;
+  margin-bottom:300px;
+  background-color:#FFF;
+  opacity:0.5;
+  margin-left:200px;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+#backtop{
+ position:fixed;
+ /* La couleur de fond*/
+ background-color:transparent;
+ border: none;
+ /*La bordure*/
+ /* la longueur et l'espace autour du texte*/
+ /* On place le bloc en bas ˆ droite*/
+ right:15px;
+ bottom:15px;
+ /* On ajoute un bord arrondi pour les navigateurs compatibles*/
+    }
+#backtop:hover{
+ /*On change le curseur de la souris au survol*/
+ cursor:pointer;
+ /*On change la couleur de fond au survol*/
+
+ /*On change la couleur de la bordure au survol*/
+
+ /*On change la couleur de texte au survol*/
+}
+:focus{outline:0}
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner{border:0;outline:none}
