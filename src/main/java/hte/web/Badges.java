@@ -11,6 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,37 +25,38 @@ public class Badges {
     @GET
     public Badge getMyBadges(@PathParam("username") String username) {
 
+        List<CandidacyJPA> candidacies = JpaUtil.getAllFrom(CandidacyJPA.class);
+        List<TagJPA> tags = JpaUtil.getEntityManager().createQuery("from TagJPA where level = 1", TagJPA.class).getResultList();
+
         List<ResponseJPA> myResponse = JpaUtil.getEntityManager()
                 .createQuery("from ResponseJPA where username = :username", ResponseJPA.class)
                 .setParameter("username", username)
                 .getResultList();
 
         Map<CandidacyJPA, Score> candidacyScoreMap = new HashMap<CandidacyJPA, Score>();
+        for (CandidacyJPA candidacy : candidacies) {
+            candidacyScoreMap.put(candidacy, new Score(0, 0));
+        }
+
         Map<TagJPA, Score> tagScoreMap = new HashMap<TagJPA, Score>();
+        for (TagJPA tag : tags) {
+            tagScoreMap.put(tag, new Score(0, 0));
+        }
+
         for (ResponseJPA response : myResponse) {
             CandidacyJPA candidacy = response.question.candidacy;
             TagJPA tagLevel1 = response.question.tagLevel1;
 
             Score scoreCandidat = candidacyScoreMap.get(candidacy);
-            if (scoreCandidat == null) {
-                scoreCandidat = new Score(1, response.correct ? 1 : 0);
-                candidacyScoreMap.put(candidacy, scoreCandidat);
-            } else {
-                scoreCandidat.answered++;
-                if (response.correct) {
-                    scoreCandidat.rights++;
-                }
+            scoreCandidat.answered++;
+            if (response.correct) {
+                scoreCandidat.rights++;
             }
 
             Score scoreTag = tagScoreMap.get(tagLevel1);
-            if (scoreTag == null) {
-                scoreTag = new Score(1, response.correct ? 1 : 0);
-                tagScoreMap.put(tagLevel1, scoreTag);
-            } else {
-                scoreTag.answered++;
-                if (response.correct) {
-                    scoreTag.rights++;
-                }
+            scoreTag.answered++;
+            if (response.correct) {
+                scoreTag.rights++;
             }
         }
 
@@ -67,6 +70,18 @@ public class Badges {
             badgeThemes.add(new BadgeTheme(entry.getKey(), entry.getValue().answered, entry.getValue().rights));
         }
 
+        Collections.sort(badgesCandidats, new Comparator<BadgeCandidat>() {
+            @Override
+            public int compare(BadgeCandidat o1, BadgeCandidat o2) {
+                return o1.candidacy.id.compareTo(o2.candidacy.id);
+            }
+        });
+        Collections.sort(badgeThemes, new Comparator<BadgeTheme>() {
+            @Override
+            public int compare(BadgeTheme o1, BadgeTheme o2) {
+                return o1.theme.name.compareTo(o2.theme.name);
+            }
+        });
         return new Badge(badgesCandidats, badgeThemes);
     }
 
