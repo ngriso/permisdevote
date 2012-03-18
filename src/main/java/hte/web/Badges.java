@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,16 +57,50 @@ public class Badges {
             }
         }
 
-        return new Badge(candidacyScoreMap, tagScoreMap);
+        List<BadgeCandidat> badgesCandidats = new ArrayList<BadgeCandidat>();
+        for (Map.Entry<CandidacyJPA, Score> entry : candidacyScoreMap.entrySet()) {
+            badgesCandidats.add(new BadgeCandidat(entry.getKey(), entry.getValue().answered, entry.getValue().rights));
+        }
+
+        List<BadgeTheme> badgeThemes = new ArrayList<BadgeTheme>();
+        for (Map.Entry<TagJPA, Score> entry : tagScoreMap.entrySet()) {
+            badgeThemes.add(new BadgeTheme(entry.getKey(), entry.getValue().answered, entry.getValue().rights));
+        }
+
+        return new Badge(badgesCandidats, badgeThemes);
     }
 
     public static class Badge {
-        Map<CandidacyJPA, Score> candidacyScoreMap;
-        Map<TagJPA, Score> tagScoreMap;
+        public List<BadgeCandidat> badgesCandidats;
+        public List<BadgeTheme> badgeThemes;
 
-        public Badge(Map<CandidacyJPA, Score> candidacyScoreMap, Map<TagJPA, Score> tagScoreMap) {
-            this.candidacyScoreMap = candidacyScoreMap;
-            this.tagScoreMap = tagScoreMap;
+        public Badge(List<BadgeCandidat> badgesCandidats, List<BadgeTheme> badgeThemes) {
+            this.badgesCandidats = badgesCandidats;
+            this.badgeThemes = badgeThemes;
+        }
+    }
+
+    public static class BadgeCandidat {
+        public CandidacyJPA candidacy;
+        public int answered;
+        public int rights;
+
+        public BadgeCandidat(CandidacyJPA candidacy, int answered, int rights) {
+            this.candidacy = candidacy;
+            this.answered = answered;
+            this.rights = rights;
+        }
+    }
+
+    public static class BadgeTheme {
+        public TagJPA theme;
+        public int answered;
+        public int rights;
+
+        public BadgeTheme(TagJPA theme, int answered, int rights) {
+            this.theme = theme;
+            this.answered = answered;
+            this.rights = rights;
         }
     }
 
