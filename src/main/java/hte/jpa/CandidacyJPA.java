@@ -21,4 +21,9 @@ public class CandidacyJPA {
         candidacyJPA.id = candidacy.id;
         return candidacyJPA;
     }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

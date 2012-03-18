@@ -2,5 +2,9 @@ GET all candidacies         /candidacies
 
 GET all themes              /tags/level1
 
-GET/POST one question       /questions?candidacyId=?&tagId=?
+GET one question            /questions?candidacyId=<CANDIDACY_ID>
+GET one question            /questions?tagId=<TAG_ID>
 
+POST answser                /questions/<QUESTION_ID>?answser=<TRUE/FALSE>&username=<USERNAME>
+
+GET badges                  /badges/<USERNAME>
