@@ -1,6 +1,6 @@
 package hte.web;
 
-import hte.jpa.CandidateJPA;
+import hte.jpa.CandidacyJPA;
 import hte.jpa.JpaUtil;
 
 import javax.ws.rs.GET;
@@ -9,12 +9,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("candidates")
+@Path("candidacies")
 @Produces(MediaType.APPLICATION_JSON)
-public class Candidates {
+public class Candidacies {
 
     @GET
-    public List<CandidateJPA> getAll() {
-        return JpaUtil.getAllFrom(CandidateJPA.class);
+    public List<CandidacyJPA> getAll() {
+        return JpaUtil.getAllFrom(CandidacyJPA.class);
     }
 }

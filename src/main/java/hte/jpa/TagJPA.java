@@ -12,14 +12,15 @@ public class TagJPA {
 	@Id
 	private String id;
 	private String name;
-	
-	public static TagJPA build(Tag tag) {
+	private String namespace;
+    public int level;
+
+    public static TagJPA build(Tag tag) {
 		TagJPA tagJPA = new TagJPA();
 	    tagJPA.id = tag.id;
 	    tagJPA.name = tag.name;
+	    tagJPA.namespace = tag.namespace;
 	    JpaUtil.save(tagJPA);	
 	    return tagJPA;	
 	}
-	
-	
 }

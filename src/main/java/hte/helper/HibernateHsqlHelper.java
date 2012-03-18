@@ -1,5 +1,9 @@
 package hte.helper;
 
+import hte.Fetcher;
+import hte.jpa.CandidacyJPA;
+import hte.jpa.QuestionJPA;
+import hte.jpa.ResponseJPA;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
@@ -25,7 +29,10 @@ public final class HibernateHsqlHelper {
                 .addAnnotatedClass(TagJPA.class)
                 .addAnnotatedClass(PropositionJPA.class)
                 .addAnnotatedClass(ElecteurJPA.class)
-        
+                .addAnnotatedClass(CandidacyJPA.class)
+                .addAnnotatedClass(QuestionJPA.class)
+                .addAnnotatedClass(ResponseJPA.class)
+
                 .setProperty(Environment.DIALECT, "org.hibernate.dialect.HSQLDialect");
 
         new SchemaExport(configuration)
@@ -59,5 +66,9 @@ public final class HibernateHsqlHelper {
 //        SqlTool.objectMain(args);
 
         System.in.read();
+    }
+
+    public static void fillDB() throws Exception {
+        new Fetcher().runFetch();
     }
 }

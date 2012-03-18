@@ -1,26 +1,23 @@
 package hte;
 
-import static org.junit.Assert.fail;
 import hte.helper.HibernateHsqlHelper;
-
 import org.junit.Test;
 
 public class HibernateHsqlHelperTest {
-	
-	@Test
-	public void generate() {
-		HibernateHsqlHelper.generate();
-	}
-	
-	@Test
-	public void hsqldb() {
-		try {
-			HibernateHsqlHelper.hsqldb();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		}
-	}
+
+    @Test
+    public void generate() {
+        HibernateHsqlHelper.generate();
+    }
+
+    @Test
+    public void hsqldb() throws Exception {
+        HibernateHsqlHelper.hsqldb();
+    }
+
+    @Test
+    public void fillDB() throws Exception {
+        HibernateHsqlHelper.fillDB();
+    }
 
 }
