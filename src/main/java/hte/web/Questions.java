@@ -4,6 +4,8 @@ import hte.jpa.JpaUtil;
 import hte.jpa.QuestionJPA;
 import hte.jpa.ResponseJPA;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.GET;
@@ -14,12 +16,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 @Path("questions")
 @Produces(MediaType.APPLICATION_JSON)
 public class Questions {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Questions.class);
 
     @GET
     @Path("all")
@@ -54,31 +59,33 @@ public class Questions {
     @GET
     public QuestionJPA get(@QueryParam("candidacyId") String candidacyId, @QueryParam("tagId") String tagId) {
         QuestionJPA result = null;
-        
-    	List<QuestionJPA> questionJPAs = new ArrayList<QuestionJPA>();
-        if (StringUtils.isNotBlank(candidacyId)) {
-            questionJPAs = JpaUtil.getEntityManager()
-                    .createQuery("from QuestionJPA where candidacy.id = :candidacyId", QuestionJPA.class)
-                    .setParameter("candidacyId", candidacyId)
-                    .getResultList();
-        }
+        try {
+        	List<Long> listOfIdQuestion = null;
+        	if (StringUtils.isNotBlank(candidacyId)) {
+        		listOfIdQuestion = JpaUtil.getEntityManager()
+        				.createQuery("select id from QuestionJPA where candidacy.id = :candidacyId", Long.class)
+        				.setParameter("candidacyId", candidacyId)
+        				.getResultList();
+        	}
 
-        if (StringUtils.isNotBlank(tagId)) {
-            questionJPAs = JpaUtil.getEntityManager()
-                    .createQuery("from QuestionJPA where tagLevel1.id = :tagId", QuestionJPA.class)
-                    .setParameter("tagId", tagId)
-                    .getResultList();
-        }
+        	if (StringUtils.isNotBlank(tagId)) {
+        		listOfIdQuestion = JpaUtil.getEntityManager()
+        				.createQuery("select id from QuestionJPA where tagLevel1.id = :tagId", Long.class)
+        				.setParameter("tagId", tagId)
+        				.getResultList();
+        	}
         
-        if (questionJPAs != null && !questionJPAs.isEmpty()) {
-        	Random random = new Random(questionJPAs.size());
-        	long idChoosed = random.nextLong();
-        	result = JpaUtil.getEntityManager()
-        			.createQuery("from QuestionJPA where id = :idChoosed", QuestionJPA.class)
-                    .setParameter("id", idChoosed)
-                    .getSingleResult();
-        }
-
+        	if (listOfIdQuestion != null && !listOfIdQuestion.isEmpty()) {
+        		Collections.shuffle(listOfIdQuestion);
+        		result = JpaUtil.getEntityManager()
+        				.createQuery("from QuestionJPA where id = :idChoosed", QuestionJPA.class)
+        				.setParameter("idChoosed", listOfIdQuestion.get(0))
+        				.getSingleResult();
+        	}
+        } catch (Exception e) {
+        	LOGGER.error(e.getMessage());
+        	e.printStackTrace();
+		}
         return result;
     }
 }
