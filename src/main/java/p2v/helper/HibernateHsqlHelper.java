@@ -14,7 +14,10 @@ import org.hsqldb.cmdline.SqlTool;
 import p2v.jpa.CandidateJPA;
 import p2v.jpa.ElecteurJPA;
 import p2v.jpa.PropositionJPA;
+import p2v.jpa.StatsCandidacyJPA;
+import p2v.jpa.StatsThemeJPA;
 import p2v.jpa.TagJPA;
+import p2v.jpa.UserStatsJPA;
 
 import java.io.PrintWriter;
 
@@ -32,6 +35,9 @@ public final class HibernateHsqlHelper {
                 .addAnnotatedClass(CandidacyJPA.class)
                 .addAnnotatedClass(QuestionJPA.class)
                 .addAnnotatedClass(ResponseJPA.class)
+                .addAnnotatedClass(StatsCandidacyJPA.class)
+                .addAnnotatedClass(StatsThemeJPA.class)
+                .addAnnotatedClass(UserStatsJPA.class)
 
                 .setProperty(Environment.DIALECT, "org.hibernate.dialect.HSQLDialect");
 

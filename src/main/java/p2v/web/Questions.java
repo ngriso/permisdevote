@@ -6,6 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import p2v.jpa.JpaUtil;
 import p2v.jpa.QuestionJPA;
 import p2v.jpa.ResponseJPA;
+import p2v.jpa.StatsCandidacyJPA;
+import p2v.jpa.StatsThemeJPA;
+import p2v.jpa.UserStatsJPA;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.GET;
@@ -32,7 +35,7 @@ public class Questions {
         Preconditions.checkArgument(StringUtils.isNotBlank(answer));
 
         QuestionJPA questionJPA = JpaUtil.getEntityManager().find(QuestionJPA.class, questionId);
-        Boolean result = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
+        Boolean correct = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
         try {
             ResponseJPA responseJPA = JpaUtil.getEntityManager()
                     .createQuery("from ResponseJPA where username = :username and question.id = :questionId", ResponseJPA.class)
@@ -40,17 +43,44 @@ public class Questions {
                     .setParameter("questionId", questionId)
                     .getSingleResult();
             responseJPA.occurence++;
-            responseJPA.correct = result;
+            responseJPA.correct = correct;
             JpaUtil.update(responseJPA);
         } catch (NoResultException e) {
             ResponseJPA responseJPA = new ResponseJPA();
             responseJPA.username = username;
             responseJPA.question = questionJPA;
             responseJPA.occurence++;
-            responseJPA.correct = result;
+            responseJPA.correct = correct;
             JpaUtil.save(responseJPA);
         }
-        return result;
+
+        try {
+            UserStatsJPA userStats = JpaUtil.getEntityManager()
+                    .createQuery("from UserStatsJPA where idUser = :idUser", UserStatsJPA.class)
+                    .setParameter("idUser", username)
+                    .getSingleResult();
+            StatsCandidacyJPA statsCandidacy = userStats.getOrCreateStatsForCandidacy(questionJPA.candidacy);
+            StatsThemeJPA statsTheme = userStats.getOrCreateStatsForTheme(questionJPA.tagLevel1);
+            statsCandidacy.answered++;
+            statsTheme.answered ++;
+            if (correct) {
+                statsCandidacy.rights++;
+                statsTheme.rights++;
+            }
+            JpaUtil.update(userStats);
+        } catch (NoResultException e) {
+            UserStatsJPA userStats = UserStatsJPA.build(username);
+            StatsCandidacyJPA statsCandidacy = userStats.getOrCreateStatsForCandidacy(questionJPA.candidacy);
+            StatsThemeJPA statsTheme = userStats.getOrCreateStatsForTheme(questionJPA.tagLevel1);
+            statsCandidacy.answered++;
+            statsTheme.answered ++;
+            if (correct) {
+                statsCandidacy.rights++;
+                statsTheme.rights++;
+            }
+            JpaUtil.save(userStats);
+        }
+        return correct;
     }
 
     @GET

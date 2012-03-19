@@ -23,7 +23,10 @@ public class QuestionJPA {
     
     @ManyToOne
     public CandidacyJPA candidacy;
-    
+
+    @ManyToOne
+    public CandidateJPA candidate1;
+
     @ManyToOne
     public TagJPA tagLevel1;
 
@@ -31,6 +34,7 @@ public class QuestionJPA {
         QuestionJPA questionJPA = new QuestionJPA();
         questionJPA.text = propositionJPA.text;
         questionJPA.candidacy = candidacyJPA;
+        questionJPA.candidate1 = candidacyJPA.candidates.iterator().next();
         questionJPA.rightAnswer = propositionJPA.candidacy.id.equals(candidacyJPA.id);
         questionJPA.tagLevel1 = propositionJPA.tagLevel1;
         JpaUtil.save(questionJPA);

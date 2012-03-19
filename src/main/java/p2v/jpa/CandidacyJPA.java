@@ -1,5 +1,6 @@
 package p2v.jpa;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import p2v.voxe.Candidacy;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ public class CandidacyJPA {
 
     @Id
     public String id;
+    @JsonIgnore
     @OneToMany
     public Set<CandidateJPA> candidates = new HashSet<CandidateJPA>();
 

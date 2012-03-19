@@ -71,8 +71,9 @@ public class Fetcher {
         JpaUtil.makeTransactional(new Runnable() {
             @Override
             public void run() {
+                CandidacyJPA candidacyJPA = JpaUtil.update(candidacy);
                 for (PropositionJPA propositionJPA : myPropositions) {
-                    QuestionJPA.build(propositionJPA, candidacy);
+                    QuestionJPA.build(propositionJPA, candidacyJPA);
                 }
             }
         });
@@ -90,8 +91,9 @@ public class Fetcher {
         JpaUtil.makeTransactional(new Runnable() {
             @Override
             public void run() {
+                CandidacyJPA candidacyJPA = JpaUtil.update(candidacy);
                 for (PropositionJPA propositionJPA : Iterables.limit(othersPropositions, myPropositions.size())) {
-                    QuestionJPA.build(propositionJPA, candidacy);
+                    QuestionJPA.build(propositionJPA, candidacyJPA);
                 }
             }
         });
@@ -108,7 +110,7 @@ public class Fetcher {
                 for (Candidacy candidacy : election.candidacies) {
                     CandidacyJPA candidacyJPA = CandidacyJPA.build(candidacy);
                     for (Candidate candidate : candidacy.candidates) {
-                        CandidateJPA candidateJPA = CandidateJPA.build(candidate);
+                        CandidateJPA candidateJPA = CandidateJPA.build(candidate, candidacyJPA);
                         candidacyJPA.candidates.add(candidateJPA);
                     }
                     JpaUtil.save(candidacyJPA);

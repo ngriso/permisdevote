@@ -1,12 +1,17 @@
 package p2v.web;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import p2v.jpa.CandidacyJPA;
 import p2v.jpa.CandidateJPA;
 import p2v.jpa.JpaUtil;
 import p2v.jpa.TagJPA;
+import p2v.jpa.UserStatsJPA;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
@@ -16,6 +21,15 @@ import java.util.List;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class RootResource {
+
+    @GET
+    @Path("stats/{username}")
+    public UserStatsJPA getStats(@PathParam("username") String username) {
+        return JpaUtil.getEntityManager()
+                .createQuery("from UserStatsJPA where idUser = :idUser", UserStatsJPA.class)
+                .setParameter("idUser", username)
+                .getSingleResult();
+    }
 
     @Path("badges")
     public Badges getBadges() {
@@ -39,10 +53,24 @@ public class RootResource {
         return new Questions();
     }
 
-    @Path("candidates")
+    @Path("candidates1")
     @GET
-    public List<CandidateJPA> getCandidates() {
-        return JpaUtil.getAllFrom(CandidateJPA.class);
+    public Iterable<CandidateJPA> getCandidates1() {
+        Iterable<CandidateJPA> candidates1 = Iterables.transform(JpaUtil.getAllFrom(CandidacyJPA.class), new Function<CandidacyJPA, CandidateJPA>() {
+            @Override
+            public CandidateJPA apply(CandidacyJPA input) {
+                return input.candidates.iterator().next();
+            }
+        });
+
+        List<CandidateJPA> orderCandidates1 = Lists.newArrayList(candidates1);
+        Collections.sort(orderCandidates1, new Comparator<CandidateJPA>() {
+            @Override
+            public int compare(CandidateJPA o1, CandidateJPA o2) {
+                return o1.lastName.compareTo(o2.lastName);
+            }
+        });
+        return orderCandidates1;
     }
 
     @Path("candidacies")
