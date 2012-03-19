@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>hacktheelections</groupId>
-    <artifactId>hacktheelections</artifactId>
-    <version>1.0</version>
+    <artifactId>permisdevote</artifactId>
+    <name>Permis de Vote</name>
+    <version>0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -1,0 +1,83 @@
+package p2v.web;
+
+import com.google.common.base.Preconditions;
+import com.sun.jersey.api.NotFoundException;
+import org.apache.commons.lang3.StringUtils;
+import p2v.jpa.JpaUtil;
+import p2v.jpa.QuestionJPA;
+import p2v.jpa.ResponseJPA;
+
+import javax.persistence.NoResultException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import java.util.Collections;
+import java.util.List;
+
+@Produces(MediaType.APPLICATION_JSON)
+public class Questions {
+
+    @GET
+    @Path("all")
+    public List<QuestionJPA> getAll() {
+        return JpaUtil.getAllFrom(QuestionJPA.class);
+    }
+
+    @GET
+    @Path("{id}")
+    public Boolean answer(@PathParam("id") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(answer));
+
+        QuestionJPA questionJPA = JpaUtil.getEntityManager().find(QuestionJPA.class, questionId);
+        Boolean result = Boolean.toString(questionJPA.rightAnswer).equalsIgnoreCase(answer);
+        try {
+            ResponseJPA responseJPA = JpaUtil.getEntityManager()
+                    .createQuery("from ResponseJPA where username = :username and question.id = :questionId", ResponseJPA.class)
+                    .setParameter("username", username)
+                    .setParameter("questionId", questionId)
+                    .getSingleResult();
+            responseJPA.occurence++;
+            responseJPA.correct = result;
+            JpaUtil.update(responseJPA);
+        } catch (NoResultException e) {
+            ResponseJPA responseJPA = new ResponseJPA();
+            responseJPA.username = username;
+            responseJPA.question = questionJPA;
+            responseJPA.occurence++;
+            responseJPA.correct = result;
+            JpaUtil.save(responseJPA);
+        }
+        return result;
+    }
+
+    @GET
+    public QuestionJPA get(@QueryParam("candidacyId") String candidacyId, @QueryParam("tagId") String tagId) {
+        List<Long> listOfIdQuestion = null;
+        if (StringUtils.isNotBlank(candidacyId)) {
+            listOfIdQuestion = JpaUtil.getEntityManager()
+                    .createQuery("select id from QuestionJPA where candidacy.id = :candidacyId", Long.class)
+                    .setParameter("candidacyId", candidacyId)
+                    .getResultList();
+        }
+
+        if (StringUtils.isNotBlank(tagId)) {
+            listOfIdQuestion = JpaUtil.getEntityManager()
+                    .createQuery("select id from QuestionJPA where tagLevel1.id = :tagId", Long.class)
+                    .setParameter("tagId", tagId)
+                    .getResultList();
+        }
+
+        if (listOfIdQuestion == null || listOfIdQuestion.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        Collections.shuffle(listOfIdQuestion);
+        return JpaUtil.getEntityManager()
+                .createQuery("from QuestionJPA where id = :idChoosed", QuestionJPA.class)
+                .setParameter("idChoosed", listOfIdQuestion.get(0))
+                .getSingleResult();
+    }
+}

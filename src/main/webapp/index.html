@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 
 <html>
 <head>
     <title>Permis de vote</title>
     <link href="style.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700' rel='stylesheet' type='text/css'>
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script type="text/javascript" charset="utf-8"
@@ -40,72 +42,107 @@
 
 <body>
 
-<div id="header"><img src="img/share.png" width="137" height="21" alt="share"/></div>
+<div id="header"><img src="img/share.png" width="137" height="21" alt="share"/> </div>
 
-<div id="nav">
-    F. HOLLANDE<br/>
-    E. JOLY<br/>JL. MELENCHON<br/>M.LE PEN<br/>N.SARKOZY<br/>N. DUPONT AIGNAN<br/><br/><br/><br/><br/>ENVIRONNEMENT<br/>ECONOMIE<br/>SANTE<br/></div>
+<div id="nav"></div>
 
-<div id="home"><img src="img/logo_bg.png" width="606" height="550" alt="share"/></div>
+<div id="home"><img src="img/logo_bg.png" width="606" height="550" alt="permis"/><br/><br/><br/>
+<a href="#compte"><img src="img/down.png" width="40" height="39" alt="next"/></a>
+            <br/><br/>
+</div>
 
 <div id="compte">
-    <input type="text" id="username">
+    <a name="compte"/><br/>
+<br/>
+<br/><br/>
+<br/>
+<br/>
+    <h1>PSEUDO<br/><input type="text" id="username"></h1>
+            <a href="#selection"><img src="img/down.png" width="40" height="39" alt="next"/></a>
+            <br/><br/>
+
+    <span class="text">Avez vous le niveau requis pour aller voter?<br/> Passez le Permis!</span>
+    <br/><br/>
 </div>
 
 <div id="selection">
+    <a name="selection"/><br/>
+<br/>
+<br/><br/>
+<br/>
+<br/>
     <div class="candidacies"></div>
 
     <div class="themes"></div>
 </div>
 
 <div id="questions">
-    <div class="question">
-        <input type="button" value="Next" id="nextQuestionBtn"/>
+    <a name="question"/>
+    <div class="question"><br/>
+<br/>
+<br/><br/>
+
 
         <div class="questionText"></div>
+        <div class="badges"></div>
     </div>
 </div>
 
 <div id="results">
-    <div class="badges"></div>
+    <!--<div class="badges"></div>-->
 </div>
 
 <script id="badgesTmpl" type="text/x-jquery-tmpl">
-    <ul>
+
+    <h2>
         {{each badgesCandidats}}
-        <li>{{each candidacy.candidates}} {{= firstName}} {{= lastName}} {{/each}} answer: {{= rights}} / {{= answered}}</li>
+        <a>{{each candidacy.candidates}} {{= firstName}} {{= lastName}} {{/each}} {{= rights}} / {{= answered}}</a><br/>
         {{/each}}
-    </ul>
-    <ul>
+    </h2>
+    <h2>
         {{each badgeThemes}}
-        <li>{{= theme.name}} answer: {{= rights}} / {{= answered}}</li>
+        <a>{{= theme.name}} {{= rights}} / {{= answered}}</a><br/>
         {{/each}}
-    </ul>
+    </h2>
 </script>
 
 <script id="themesTmpl" type="text/x-jquery-tmpl">
-    <ul>
+    <h2>
         {{each themes}}
-        <li data-id="{{= id}}" data-type="tagId">{{= name}}</li>
+        <span data-id="{{= id}}" data-type="tagId" data-info="{{= name}}">{{= name}}</span><br/>
         {{/each}}
-    </ul>
+    </h2>
 </script>
 
 <script id="candidaciesTmpl" type="text/x-jquery-tmpl">
-    <ul>
+    <h2>
         {{each candidacies}}
-        <li data-id="{{= id}}" data-type="candidacyId">{{each candidates}} {{= firstName}} {{= lastName}} {{/each}}</li>
+        <span data-id="{{= id}}" data-type="candidacyId" data-info="{{each candidates}} {{= firstName}} {{= lastName}} {{/each}}">{{each candidates}} {{= firstName}} {{= lastName}} {{/each}}</span><br/>
         {{/each}}
-    </ul>
+    </h2>
 </script>
 
 <script id="questionTmpl" type="text/x-jquery-tmpl">
-    <input type="hidden" data-questionId="{{= id}}">
-    {{= text}}
-    <label>true
+    <input type="hidden" data-questionId="{{= question.id}}">
+    {{= currentInfo}}, <span class="text">concernant le domaine </span>{{= question.tagLevel1.name}}, <span class="text">a dit:</span><br/>
+    <span class="text">{{= question.text}}</span><br/><br/>
+    <label>TRUE
         <input type="radio" name="answer" value="true">
     </label>
-    <label>false
+    <label>FALSE
+        <input type="radio" name="answer" value="false">
+    </label>
+</script>
+
+<script id="questionThemeTmpl" type="text/x-jquery-tmpl">
+    <input type="hidden" data-questionId="{{= question.id}}">
+    <span class="text">Concernant le domaine</span> {{= currentInfo}}, {{each question.candidacy.candidates}} {{= firstName}} {{= lastName}} {{/each}}
+    <span class="text">a dit:</span><br/>
+    <span class="text">{{= question.text}}</span><br/><br/>
+    <label>TRUE
+        <input type="radio" name="answer" value="true">
+    </label>
+    <label>FALSE
         <input type="radio" name="answer" value="false">
     </label>
 </script>
@@ -113,7 +150,7 @@
 </body>
 
 <script type="text/javascript">
-
+    
     var p2v = {};
     p2v.model = {};
     p2v.username = "nicolas";
@@ -131,19 +168,33 @@
                     $(".candidacies").html($("#candidaciesTmpl").tmpl(p2v.model));
                     $(".themes").html($("#themesTmpl").tmpl(p2v.model));
 
-                    $("li").click(function(event) {
+                    $("span").click(function(event) {
                         var type = $(event.currentTarget).attr("data-type");
                         var id = $(event.currentTarget).attr("data-id");
+                        var currentInfo = $(event.currentTarget).attr("data-info");
+                        p2v.typeInfo = type;
                         p2v.currentBadge = type + "=" + id;
+                        p2v.currentInfo = currentInfo;
                         console.log("Current badge: " + p2v.currentBadge);
+                        nextFunction();
+                        var regex = /(.*)#/;
+                        var match = regex.exec(window.location.href);
+                        console.log(match[0]);
+                        window.location.href = match[0] + "question";
                     });
                 });
 
-        $("#nextQuestionBtn").click(function() {
+        var nextFunction = function() {
             console.log("Next question for: " + p2v.currentBadge);
             var questionUrl = "/api/questions?" + p2v.currentBadge;
             $.get(questionUrl, function(data) {
-                $(".questionText").html($("#questionTmpl").tmpl(data));
+
+                if(p2v.typeInfo === 'tagId') {
+                    $(".questionText").html($("#questionThemeTmpl").tmpl({question:data, currentInfo: p2v.currentInfo}));
+                } else {
+                    $(".questionText").html($("#questionTmpl").tmpl({question:data, currentInfo: p2v.currentInfo}));
+                }
+
                 $(":radio").click(function(event) {
                     var value = $(event.currentTarget).val();
                     var questionId = $(".questionText :hidden").attr("data-questionId");
@@ -155,12 +206,14 @@
                         p2v.username = $("#username").val();
 
                         $.get("/api/badges/" + p2v.username, function(data) {
-                            $(".badges").html($("#badgesTmpl").tmpl(data))
+                            $(".badges").html($("#badgesTmpl").tmpl(data));
+                            nextFunction();
                         });
                     });
                 });
-            });
-        });
+            });            
+        };
+        $("#nextQuestionBtn").click(nextFunction);
     });
 
 </script>

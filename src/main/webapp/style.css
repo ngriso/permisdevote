@@ -7,12 +7,15 @@ html {
   -webkit-background-size: cover; /* pour Chrome et Safari */
   -moz-background-size: cover; /* pour Firefox */
   -o-background-size: cover; /* pour Opera */
-  background-size: cover; /* version standardisŽe */
+  background-size: cover; /* version standardisï¿½e */
   vertical-align:middle;
 }
 
 #header{ opacity:0.5; border-bottom-color:#FFF; height:50px;}
-
+.text{font-weight: 400;
+font-size:25px;
+line-height:25px; font-family: 'Rokkitt', serif;
+  color:#FFF;}
 
 #home{
   margin-top:50px;
@@ -41,34 +44,67 @@ html {
   height:400px;
   margin-right: 200px;
   margin-bottom:300px;
-  background-color:#999;
-  opacity:0.5;
   margin-left:200px;
+  text-align: center;
+  font-family: 'Rokkitt', serif;
+  color:#FFF;
   }
 
 #selection{
   height:400px;
   margin-right: 200px;
   margin-bottom:300px;
-  background-color:#FFF;
-  opacity:0.5;
+
   margin-left:200px;
   }
 
+h2{
+  font-family: 'Rokkitt', serif;
+  color:#FFF;
+  font-size:27px;
+  list-style:none;
+  float: left;
+  margin-right:100px;
+  opacity:0.5;
+}
+
+span:hover{
+  font-family: 'Rokkitt', serif;
+  color:#FFF;
+  list-style:none;
+  float: left;
+  font-weight:700;
+  cursor: pointer;
+  }
+  
 #questions{
     height:400px;
   margin-right: 200px;
   margin-bottom:300px;
-  background-color:#FFF;
-  opacity:0.5;
+  font-size:30px;
   margin-left:200px;
+    font-family: 'Rokkitt', serif;
+  color:#FFF;
+  text-align:center;
+  font-weight:700;
   }
+
+.questions a{}
+  
+.badges{
+    text-decoration:none;
+    text-align:left;}
+
+.text{font-weight: 400;
+font-size:25px;
+line-height:25px;}
+
+
 
 #results{  height:400px;
   margin-right: 200px;
   margin-bottom:300px;
-  background-color:#FFF;
-  opacity:0.5;
+
   margin-left:200px;
   }
 
@@ -90,7 +126,7 @@ html {
  border: none;
  /*La bordure*/
  /* la longueur et l'espace autour du texte*/
- /* On place le bloc en bas ˆ droite*/
+ /* On place le bloc en bas ï¿½ droite*/
  right:15px;
  bottom:15px;
  /* On ajoute un bord arrondi pour les navigateurs compatibles*/
