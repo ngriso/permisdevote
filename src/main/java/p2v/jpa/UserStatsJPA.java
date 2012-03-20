@@ -3,55 +3,28 @@ package p2v.jpa;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class UserStatsJPA {
+public class UserStatsJPA extends GlobalStatsJPA {
 
     @JsonIgnore
-    @Id
-    @GeneratedValue
-    public Long id;
+    @ManyToOne
+    public VoterJPA voter;
 
-    @JsonIgnore
-    public String idUser;
-
-    @OneToMany
-    public List<StatsCandidacyJPA> statsCandidacy;
-    @OneToMany
-    public List<StatsThemeJPA> statsTheme;
-
-    public StatsCandidacyJPA getOrCreateStatsForCandidacy(CandidacyJPA candidacy) {
-        for (StatsCandidacyJPA statsCandidacyJPA : statsCandidacy) {
-            if (statsCandidacyJPA.candidacy.equals(candidacy)) {
-                return statsCandidacyJPA;
-            }
-        }
-        StatsCandidacyJPA statsCandidacyJPA = StatsCandidacyJPA.build(candidacy);
-        statsCandidacy.add(statsCandidacyJPA);
-        return statsCandidacyJPA;
-    }
-
-    public static UserStatsJPA build(String username) {
+    public static UserStatsJPA build(VoterJPA voter) {
         UserStatsJPA userStats = new UserStatsJPA();
-        userStats.idUser = username;
+        userStats.voter = voter;
         userStats.statsCandidacy = new ArrayList<StatsCandidacyJPA>();
-        userStats.statsTheme = new ArrayList<StatsThemeJPA>();
-        return userStats;
-    }
-
-    public StatsThemeJPA getOrCreateStatsForTheme(TagJPA theme) {
-        for (StatsThemeJPA statsThemeJPA : statsTheme) {
-            if (statsThemeJPA.tag.equals(theme)) {
-                return statsThemeJPA;
-            }
+        for (CandidacyJPA candidacyJPA : JpaUtil.getAllFrom(CandidacyJPA.class)) {
+            userStats.statsCandidacy.add(StatsCandidacyJPA.build(candidacyJPA));
         }
-        StatsThemeJPA statsThemeJPA = StatsThemeJPA.build(theme);
-        this.statsTheme.add(statsThemeJPA);
-        return statsThemeJPA;
+        userStats.statsTheme = new ArrayList<StatsThemeJPA>();
+        for (TagJPA tagJPA : JpaUtil.findThemes()) {
+            userStats.statsTheme.add(StatsThemeJPA.build(tagJPA));
+        }
+        JpaUtil.save(userStats);
+        return userStats;
     }
 }

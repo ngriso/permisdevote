@@ -1,8 +1,12 @@
 package p2v.jpa;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class JpaUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JpaUtil.class);
 
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("permisdevote");
 
@@ -34,7 +39,7 @@ public class JpaUtil {
         entityManagerHolder.set(null);
     }
 
-    public static EntityManager getEntityManager() {
+    private static EntityManager getEntityManager() {
         return entityManagerHolder.get();
     }
 
@@ -98,9 +103,75 @@ public class JpaUtil {
 
     public static void save(Object entity) {
         JpaUtil.getEntityManager().persist(entity);
+        LOGGER.info("[Created] " + entity);
     }
 
     public static <T> T update(T entity) {
-        return JpaUtil.getEntityManager().merge(entity);
+        T merge = JpaUtil.getEntityManager().merge(entity);
+        LOGGER.info("[Merged] " + merge);
+        return merge;
+    }
+
+    public static List<TagJPA> findThemes() {
+        return getEntityManager().createQuery("from TagJPA where level = 1 order by name", TagJPA.class).getResultList();
+    }
+
+    public static <T> T findById(Class<T> clazz, Long id) {
+        EntityManager entityManager = getEntityManager();
+        T entity = entityManager.find(clazz, id);
+        if (null == entity) {
+            throw new NoResultException("id: " + id + ", Entity class: " + clazz.getName());
+        }
+        return entity;
+    }
+
+    public static ResponseJPA findResponseByVoterAndQuestion(Long questionId, VoterJPA voter) {
+        return getEntityManager()
+                .createQuery("from ResponseJPA where voter = :electeur and question.id = :questionId", ResponseJPA.class)
+                .setParameter("electeur", voter)
+                .setParameter("questionId", questionId)
+                .getSingleResult();
+    }
+
+    public static List<Long> findQuestionsIdByCandidacyId(String candidacyId) {
+        return getEntityManager()
+                .createQuery("select id from QuestionJPA where candidacy.id = :candidacyId", Long.class)
+                .setParameter("candidacyId", candidacyId)
+                .getResultList();
+    }
+
+    public static List<Long> findQuestionsIdByTagId(String tagId) {
+        return getEntityManager()
+                .createQuery("select id from QuestionJPA where tagLevel1.id = :tagId", Long.class)
+                .setParameter("tagId", tagId)
+                .getResultList();
+    }
+
+    public static UserStatsJPA findUserStatsByVoter(VoterJPA voter) {
+        return getEntityManager()
+                .createQuery("from UserStatsJPA where voter = :electeur", UserStatsJPA.class)
+                .setParameter("electeur", voter)
+                .getSingleResult();
+    }
+
+    public static VoterJPA findVoterByUsername(String username) {
+        return getEntityManager()
+                .createQuery("from VoterJPA where username = :username", VoterJPA.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
+
+    public static List<PropositionJPA> findPropositionsByCandidacy(CandidacyJPA candidacy) {
+        return getEntityManager()
+                .createQuery("from PropositionJPA where candidacy = :candidacy", PropositionJPA.class)
+                .setParameter("candidacy", candidacy)
+                .getResultList();
+    }
+
+    public static List<PropositionJPA> findAllPropositionsExceptForOneCandidacy(CandidacyJPA candidacy) {
+        return getEntityManager()
+                .createQuery("from PropositionJPA where candidacy != :candidacy", PropositionJPA.class)
+                .setParameter("candidacy", candidacy)
+                .getResultList();
     }
 }

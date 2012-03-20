@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Permis de vote</title>
@@ -9,37 +8,11 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <script type="text/javascript" charset="utf-8"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf-8"
-            src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-    <script type="text/javascript" charset="utf-8"
-            src="main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="main.js"></script>
 
     <button type="button" id="backtop"><img src="img/btn_top.png" width="40" height="39"/></button>
-
-    <script type="text/javascript">var scrolling = function() {
-        var speed = 1000;
-        jQuery('a[href^="#"]').bind('click', function() {
-            var id = jQuery(this).attr('href');
-            if (id == '#')
-                goTo('body');
-            else
-                goTo(id);
-            return(false);
-        });
-        function goTo(ancre) {
-            jQuery('html,body').animate({scrollTop:jQuery(ancre).offset().top}, speed, 'swing', function() {
-                if (ancre != 'body')
-                    window.location.hash = ancre;
-                else
-                    window.location.hash = '#';
-                jQuery(ancre).attr('tabindex', '-1');
-                jQuery(ancre).focus();
-                jQuery(ancre).removeAttr('tabindex');
-            });
-        }
-    };</script>
 </head>
 
 <body>
@@ -104,7 +77,8 @@
 <script id="badgesTmpl" type="text/x-jquery-tmpl">
     <h2>
         {{each statsCandidacy}}
-        <a>{{= candidacy.id}} {{= rights}} / {{= answered}}</a><br/>
+        <a>{{= candidacy.candidate1.firstName}} {{= candidacy.candidate1.lastName}} {{= rights}} / {{=
+            answered}}</a><br/>
         {{/each}}
     </h2>
 
@@ -118,23 +92,33 @@
 <script id="themesTmpl" type="text/x-jquery-tmpl">
     <h2>
         {{each themes}}
-        <span data-id="{{= id}}" data-type="tagId" data-info="{{= name}}">{{= name}}</span><br/>
+        <div class="selectionItem"
+             data-id="{{= id}}" data-type="tagId" data-info="{{= name}}">
+            {{= name}}
+        </div>
+        <br/>
         {{/each}}
     </h2>
 </script>
 
 <script id="candidates1Tmpl" type="text/x-jquery-tmpl">
     <h2>
-        {{each candidates1}}
-        <span data-id="{{= candidacy.id}}" data-type="candidacyId"
-              data-info="{{= firstName}} {{= lastName}}">{{= firstName}} {{= lastName}}</span><br/>
+        {{each candidacies}}
+        <div class="selectionItem"
+             data-id="{{= id}}"
+             data-type="candidacyId"
+             data-info="{{= candidate1.firstName}} {{= candidate1.lastName}}">
+            {{= candidate1.firstName}} {{= candidate1.lastName}}
+        </div>
+        <br/>
         {{/each}}
     </h2>
 </script>
 
 <script id="questionTmpl" type="text/x-jquery-tmpl">
     <input type="hidden" data-questionId="{{= question.id}}">
-    {{= currentInfo}}, <span class="text">concernant le domaine </span>{{= question.tagLevel1.name}}, <span class="text">a dit:</span><br/>
+    {{= currentInfo}}, <span class="text">concernant le domaine </span>{{= question.tagLevel1.name}}, <span
+        class="text">a dit:</span><br/>
     <span class="text">{{= question.text}}</span><br/><br/>
     <label>TRUE
         <input type="radio" name="answer" value="true">
@@ -146,7 +130,8 @@
 
 <script id="questionThemeTmpl" type="text/x-jquery-tmpl">
     <input type="hidden" data-questionId="{{= question.id}}">
-    <span class="text">Concernant le domaine</span> {{= currentInfo}}, {{= question.candidate1.firstName}} {{= question.candidate1.lastName}}
+    <span class="text">Concernant le domaine</span> {{= currentInfo}}, {{= question.candidacy.candidate1.firstName}} {{=
+    question.candidacy.candidate1.lastName}}
     <span class="text">a dit:</span><br/>
     <span class="text">{{= question.text}}</span><br/><br/>
     <label>TRUE
@@ -167,10 +152,10 @@
 
     $(document).ready(function() {
         $.when(
-                $.get("./api/candidates1/", function(data) {
-                    p2v.model.candidates1 = data;
+                $.get("./api/candidacies/", function(data) {
+                    p2v.model.candidacies = data;
                 }),
-                $.get("./api/tags/level1", function(data) {
+                $.get("./api/themes", function(data) {
                     p2v.model.themes = data;
                 })
         ).done(function() {
@@ -181,6 +166,16 @@
                         var id = $(event.currentTarget).attr("data-id");
                         var currentInfo = $(event.currentTarget).attr("data-info");
                         selectBadge(type, id, currentInfo);
+                    });
+                    $("img", "#compte").click(function() {
+                        var profile = {username: $("#username").val()};
+//                        $.post("./api/voters", JSON.stringify(profile));
+                        $.ajax({
+                            type:'POST',
+                            url:"./api/voters",
+                            data:JSON.stringify(profile),
+                            contentType:"application/json"
+                        });
                     });
                 });
 

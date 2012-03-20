@@ -12,7 +12,7 @@ import org.hsqldb.Server;
 import org.hsqldb.cmdline.SqlTool;
 
 import p2v.jpa.CandidateJPA;
-import p2v.jpa.ElecteurJPA;
+import p2v.jpa.VoterJPA;
 import p2v.jpa.PropositionJPA;
 import p2v.jpa.StatsCandidacyJPA;
 import p2v.jpa.StatsThemeJPA;
@@ -31,7 +31,7 @@ public final class HibernateHsqlHelper {
                 .addAnnotatedClass(CandidateJPA.class)
                 .addAnnotatedClass(TagJPA.class)
                 .addAnnotatedClass(PropositionJPA.class)
-                .addAnnotatedClass(ElecteurJPA.class)
+                .addAnnotatedClass(VoterJPA.class)
                 .addAnnotatedClass(CandidacyJPA.class)
                 .addAnnotatedClass(QuestionJPA.class)
                 .addAnnotatedClass(ResponseJPA.class)

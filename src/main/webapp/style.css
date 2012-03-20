@@ -68,7 +68,7 @@ h2{
   opacity:0.5;
 }
 
-span:hover{
+#selection div.selectionItem:hover{
   font-family: 'Rokkitt', serif;
   color:#FFF;
   list-style:none;

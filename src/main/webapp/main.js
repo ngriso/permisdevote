@@ -28,7 +28,7 @@ var nextQuestion = function() {
     });
 };
 
-function selectBadge(type, id, currentInfo) {
+var selectBadge = function (type, id, currentInfo) {
     p2v.typeInfo = type;
     p2v.currentBadge = type + "=" + id;
     p2v.currentInfo = currentInfo;
@@ -39,3 +39,26 @@ function selectBadge(type, id, currentInfo) {
     console.log(match[0]);
     window.location.href = match[0] + "question";
 }
+
+var scrolling = function() {
+    var speed = 1000;
+    jQuery('a[href^="#"]').bind('click', function() {
+        var id = jQuery(this).attr('href');
+        if (id == '#')
+            goTo('body');
+        else
+            goTo(id);
+        return(false);
+    });
+    function goTo(ancre) {
+        jQuery('html,body').animate({scrollTop:jQuery(ancre).offset().top}, speed, 'swing', function() {
+            if (ancre != 'body')
+                window.location.hash = ancre;
+            else
+                window.location.hash = '#';
+            jQuery(ancre).attr('tabindex', '-1');
+            jQuery(ancre).focus();
+            jQuery(ancre).removeAttr('tabindex');
+        });
+    }
+};

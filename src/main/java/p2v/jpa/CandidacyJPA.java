@@ -5,6 +5,7 @@ import p2v.voxe.Candidacy;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,11 @@ public class CandidacyJPA {
     @JsonIgnore
     @OneToMany
     public Set<CandidateJPA> candidates = new HashSet<CandidateJPA>();
+
+    @ManyToOne
+    public CandidateJPA candidate1;
+
+    public int nbCandidates = 0;
 
     public static CandidacyJPA build(Candidacy candidacy) {
         CandidacyJPA candidacyJPA = new CandidacyJPA();
@@ -40,5 +46,11 @@ public class CandidacyJPA {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public void addCandidate(CandidateJPA candidateJPA) {
+        this.candidates.add(candidateJPA);
+        this.candidate1 = candidateJPA;
+        this.nbCandidates = this.candidates.size();
     }
 }

@@ -62,10 +62,7 @@ public class Fetcher {
         final List<PropositionJPA> myPropositions = JpaUtil.makeTransactional(new Callable<List<PropositionJPA>>() {
             @Override
             public List<PropositionJPA> call() throws Exception {
-                return JpaUtil.getEntityManager()
-                        .createQuery("from PropositionJPA where candidacy = :candidacy", PropositionJPA.class)
-                        .setParameter("candidacy", candidacy)
-                        .getResultList();
+                return JpaUtil.findPropositionsByCandidacy(candidacy);
             }
         });
         JpaUtil.makeTransactional(new Runnable() {
@@ -80,10 +77,7 @@ public class Fetcher {
         final List<PropositionJPA> othersPropositions = JpaUtil.makeTransactional(new Callable<List<PropositionJPA>>() {
             @Override
             public List<PropositionJPA> call() throws Exception {
-                return JpaUtil.getEntityManager()
-                        .createQuery("from PropositionJPA where candidacy != :candidacy", PropositionJPA.class)
-                        .setParameter("candidacy", candidacy)
-                        .getResultList();
+                return JpaUtil.findAllPropositionsExceptForOneCandidacy(candidacy);
             }
         });
 
@@ -110,8 +104,7 @@ public class Fetcher {
                 for (Candidacy candidacy : election.candidacies) {
                     CandidacyJPA candidacyJPA = CandidacyJPA.build(candidacy);
                     for (Candidate candidate : candidacy.candidates) {
-                        CandidateJPA candidateJPA = CandidateJPA.build(candidate, candidacyJPA);
-                        candidacyJPA.candidates.add(candidateJPA);
+                        CandidateJPA.build(candidate, candidacyJPA);
                     }
                     JpaUtil.save(candidacyJPA);
                 }

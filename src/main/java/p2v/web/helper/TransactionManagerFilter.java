@@ -1,4 +1,4 @@
-package p2v.web;
+package p2v.web.helper;
 
 import p2v.jpa.JpaUtil;
 
