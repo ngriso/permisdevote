@@ -1,5 +1,6 @@
 package p2v.helper;
 
+import org.apache.commons.lang3.ArrayUtils;
 import p2v.Fetcher;
 import p2v.jpa.CandidacyJPA;
 import p2v.jpa.QuestionJPA;
@@ -25,6 +26,21 @@ public final class HibernateHsqlHelper {
 
     private HibernateHsqlHelper() {
 	}
+
+    public static void main(String[] args) throws Exception {
+        if (ArrayUtils.isNotEmpty(args)) {
+            String task = args[0];
+            if ("schema".equals(task)) {
+                generate();
+            } else if("startDB".equals(task)) {
+                hsqldb();
+            } else if ("startDBFile".equals(task)) {
+                startDB();
+            } else if ("fill".equals(task)) {
+                fillDB();
+            }
+        }
+    }
 
 	public static void generate() {
         Configuration configuration = new Configuration()
@@ -62,15 +78,6 @@ public final class HibernateHsqlHelper {
                 "sql/schema.sql"
         };
         SqlTool.objectMain(args);
-
-//        
-//        args = new String[]{
-//                "--driver=org.hsqldb.jdbcDriver",
-//                "--inlineRc=url=jdbc:hsqldb:hsql://localhost/,user=sa,password=",
-//                "sql/data.sql"
-//        };
-//        SqlTool.objectMain(args);
-
         System.in.read();
     }
     
