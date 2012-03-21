@@ -1,0 +1,8 @@
+<configuration>
+
+    <appender name="NOOP" class="ch.qos.logback.core.helpers.NOPAppender"/>
+
+    <root>
+        <appender-ref ref="NOOP"/>
+    </root>
+</configuration>
