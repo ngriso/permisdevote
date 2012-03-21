@@ -11,6 +11,7 @@
     <logger name="org.hibernate" level="WARN"/>
     <logger name="org.apache.http" level="WARN"/>
     <logger name="org.apache.commons" level="WARN"/>
+    <logger name="com.jayway" level="WARN"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>

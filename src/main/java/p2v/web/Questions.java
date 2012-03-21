@@ -4,15 +4,20 @@ import com.sun.jersey.api.NotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import p2v.jpa.JpaUtil;
 import p2v.jpa.QuestionJPA;
+import p2v.jpa.ResponseJPA;
+import p2v.jpa.VoterJPA;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
+@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class Questions {
 
@@ -35,4 +40,14 @@ public class Questions {
         Collections.shuffle(listOfIdQuestion);
         return JpaUtil.findById(QuestionJPA.class, listOfIdQuestion.get(0));
     }
+
+    @Path("{questionId}/answer")
+    @GET
+    public boolean answer(@PathParam("questionId") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
+        VoterJPA voter = JpaUtil.findVoterByUsername(username);
+        QuestionJPA questionJPA = JpaUtil.findById(QuestionJPA.class, questionId);
+        ResponseJPA response = voter.answer(questionJPA, answer);
+        return response.correct;
+    }
+
 }

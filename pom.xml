@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hsqldb.version>2.2.8</hsqldb.version>
         <jersey.version>1.11</jersey.version>
+        <rest-assured.version>1.6</rest-assured.version>
     </properties>
 
     <build>
@@ -120,10 +121,21 @@
         </dependency>
 
         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>8.0.4.v20111024</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <artifactId>junit-dep</artifactId>
             <version>4.10</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
         </dependency>
     </dependencies>
 </project>

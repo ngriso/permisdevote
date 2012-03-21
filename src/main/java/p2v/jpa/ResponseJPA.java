@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.Date;
 
 @Entity
 public class ResponseJPA {
@@ -18,20 +19,14 @@ public class ResponseJPA {
     @OneToOne
     public QuestionJPA question;
 
-    public int occurence;
+    public Date creationDate;
     public boolean correct;
-
-    public void newAnswer(String answer) {
-        this.occurence++;
-        this.correct = Boolean.valueOf(answer).equals(this.question.rightAnswer);
-        JpaUtil.update(this);
-    }
 
     public static ResponseJPA build(VoterJPA voter, QuestionJPA questionJPA, String answer) {
         ResponseJPA responseJPA = new ResponseJPA();
         responseJPA.voter = voter;
         responseJPA.question = questionJPA;
-        responseJPA.occurence++;
+        responseJPA.creationDate = new Date();
         responseJPA.correct = Boolean.valueOf(answer).equals(responseJPA.question.rightAnswer);
         JpaUtil.save(responseJPA);
         return responseJPA;

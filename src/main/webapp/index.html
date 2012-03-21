@@ -145,42 +145,6 @@
 </body>
 
 <script type="text/javascript">
-
-    var p2v = {};
-    p2v.model = {};
-    p2v.username = "nicolas";
-
-    $(document).ready(function() {
-        $.when(
-                $.get("./api/candidacies/", function(data) {
-                    p2v.model.candidacies = data;
-                }),
-                $.get("./api/themes", function(data) {
-                    p2v.model.themes = data;
-                })
-        ).done(function() {
-                    $(".candidacies").html($("#candidates1Tmpl").tmpl(p2v.model));
-                    $(".themes").html($("#themesTmpl").tmpl(p2v.model));
-                    $("span").click(function(event) {
-                        var type = $(event.currentTarget).attr("data-type");
-                        var id = $(event.currentTarget).attr("data-id");
-                        var currentInfo = $(event.currentTarget).attr("data-info");
-                        selectBadge(type, id, currentInfo);
-                    });
-                    $("img", "#compte").click(function() {
-                        var profile = {username: $("#username").val()};
-//                        $.post("./api/voters", JSON.stringify(profile));
-                        $.ajax({
-                            type:'POST',
-                            url:"./api/voters",
-                            data:JSON.stringify(profile),
-                            contentType:"application/json"
-                        });
-                    });
-                });
-
-        $("#nextQuestionBtn").click(nextQuestion);
-    });
-
+    $(document).ready(start);
 </script>
 </html>

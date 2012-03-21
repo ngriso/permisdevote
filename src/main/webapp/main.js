@@ -1,9 +1,55 @@
-var nextQuestion = function() {
-    console.log("Next question for: " + p2v.currentBadge);
-    var questionUrl = "/api/questions?" + p2v.currentBadge;
-    $.get(questionUrl, function(data) {
+var start = function() {
+    p2v = {};
+    p2v.model = {};
+    p2v.username = "nicolas";
+    p2v.urls = {};
+    p2v.urls.themes = "./api/themes";
+    p2v.urls.candidacies = "./api/candidacies";
+    p2v.urls.voters = "./api/voters";
+    p2v.urls.questions = "./api/questions";
+    p2v.urls.questions_next = p2v.urls.questions + "/next?{:type}={:typeId}";
+    p2v.urls.answer = p2v.urls.questions + "/{:questionId}/answer?answer={:answer}&username={:username}";
 
-        if (p2v.typeInfo === 'tagId') {
+    $.when(
+            $.get(p2v.urls.candidacies, function(data) {
+                p2v.model.candidacies = data;
+            }),
+            $.get(p2v.urls.themes, function(data) {
+                p2v.model.themes = data;
+            })
+    ).done(function() {
+                $(".candidacies").html($("#candidates1Tmpl").tmpl(p2v.model));
+                $(".themes").html($("#themesTmpl").tmpl(p2v.model));
+                $("span").click(clickOnCandidacyOrTheme);
+                $("img", "#compte").click(function() {
+                    var profile = {username: $("#username").val()};
+                    $.ajax({
+                        type:'POST',
+                        url:p2v.urls.voters,
+                        data:JSON.stringify(profile),
+                        contentType:"application/json"
+                    });
+                });
+            });
+
+    $("#nextQuestionBtn").click(nextQuestion);
+};
+
+var clickOnCandidacyOrTheme = function (event) {
+    var type = $(event.currentTarget).attr("data-type");
+    var id = $(event.currentTarget).attr("data-id");
+    p2v.currentInfo = $(event.currentTarget).attr("data-info");
+    console.log(formatString("Selected badge: type:[{:type}], id:[{:id}]", {type:type, id:id}));
+    var questionUrl = formatString(p2v.urls.questions_next, {type:type, typeId:id});
+    nextQuestion(questionUrl, type);
+    var regex = /(.*)#/;
+    var match = regex.exec(window.location.href);
+    window.location.href = match[0] + "question";
+};
+
+var nextQuestion = function(questionUrl, type) {
+    $.get(questionUrl, function(data) {
+        if (type === 'tagId') {
             $(".questionText").html($("#questionThemeTmpl").tmpl({question:data, currentInfo: p2v.currentInfo}));
         } else {
             $(".questionText").html($("#questionTmpl").tmpl({question:data, currentInfo: p2v.currentInfo}));
@@ -13,7 +59,7 @@ var nextQuestion = function() {
             var value = $(event.currentTarget).val();
             var questionId = $(".questionText :hidden").attr("data-questionId");
             p2v.username = $("#username").val();
-            var answerURL = "/api/questions/" + questionId + "?answer=" + value + "&username=" + p2v.username;
+            var answerURL = formatString(p2v.urls.answer, {questionId:questionId, answer:value, username:p2v.username});
             console.log(answerURL);
             $.get(answerURL, function(data) {
                 console.log(data);
@@ -28,37 +74,12 @@ var nextQuestion = function() {
     });
 };
 
-var selectBadge = function (type, id, currentInfo) {
-    p2v.typeInfo = type;
-    p2v.currentBadge = type + "=" + id;
-    p2v.currentInfo = currentInfo;
-    console.log("Current badge: " + p2v.currentBadge);
-    nextQuestion();
-    var regex = /(.*)#/;
-    var match = regex.exec(window.location.href);
-    console.log(match[0]);
-    window.location.href = match[0] + "question";
-}
-
-var scrolling = function() {
-    var speed = 1000;
-    jQuery('a[href^="#"]').bind('click', function() {
-        var id = jQuery(this).attr('href');
-        if (id == '#')
-            goTo('body');
-        else
-            goTo(id);
-        return(false);
-    });
-    function goTo(ancre) {
-        jQuery('html,body').animate({scrollTop:jQuery(ancre).offset().top}, speed, 'swing', function() {
-            if (ancre != 'body')
-                window.location.hash = ancre;
-            else
-                window.location.hash = '#';
-            jQuery(ancre).attr('tabindex', '-1');
-            jQuery(ancre).focus();
-            jQuery(ancre).removeAttr('tabindex');
-        });
+var formatString = function(string, params) {
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+            var value = params[key];
+            string = string.replace("{:" + key +"}", value);
+        }
     }
+    return string;
 };
