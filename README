@@ -1,10 +1,6 @@
 GET all candidacies         /api/candidacies
-
-GET all themes              /api/tags/level1
-
+GET all themes              /api/themes
 GET one question            /api/questions?candidacyId=<CANDIDACY_ID>
 GET one question            /api/questions?tagId=<TAG_ID>
-
 POST answser                /api/questions/<QUESTION_ID>?answser=<TRUE/FALSE>&username=<USERNAME>
-
-GET badges                  /api/badges/<USERNAME>
+GET stats                  /api/stats/<USERNAME>
