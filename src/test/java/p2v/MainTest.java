@@ -1,20 +1,18 @@
 package p2v;
 
-import org.junit.ClassRule;
+import com.jayway.restassured.http.ContentType;
 import org.junit.Test;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-
-import java.util.logging.Handler;
-import java.util.logging.LogManager;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.get;
+import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertTrue;
 
-public class MainTest {
+public class MainTest extends AbstractTest {
 
     @Test
     public void expect_list_themes_is_not_empty() {
@@ -60,6 +58,11 @@ public class MainTest {
 
     @Test
     public void answer() {
+        given().body("{\"username\":\"nicolas\"}").contentType(ContentType.JSON).expect()
+                .statusCode(200)
+                .body("id", notNullValue(), "username", equalTo("nicolas"))
+                .post(URLS.BASE + "/voters");
+
         String candidacyId = get(URLS.BASE + "/candidacies").jsonPath().get("[0].id");
         Integer questionId = get(URLS.BASE + "/questions/next?candidacyId=" + candidacyId).jsonPath().getInt("id");
         String response = expect().statusCode(200).get(URLS.BASE + "/questions/{questionId}/answer?answer={answer}&username={username}", questionId, "true", "nicolas").asString();
@@ -67,36 +70,5 @@ public class MainTest {
 
         get(URLS.BASE + "/voters/nicolas/stats");
         get(URLS.BASE + "/stats");
-    }
-
-    @Test
-    public void checkVoterOperations() {
-/*
-        given().body("{\"username\":\"nicolas\"}").contentType(ContentType.JSON)
-                .expect()
-                    .statusCode(200)
-                .body(
-                        "id", notNullValue(),
-                        "username", equalTo("nicolas")
-                )
-                .post(URLS.BASE + "/voters");
-*/
-        expect().get(URLS.BASE + "/voters/nicolas/stats");
-    }
-
-    @ClassRule
-    public static final JettyServerRule jetty = new JettyServerRule(18080, "src/main/webapp");
-
-    static {
-        java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger("");
-        Handler[] handlers = rootLogger.getHandlers();
-        for (Handler handler : handlers) {
-            rootLogger.removeHandler(handler);
-        }
-        SLF4JBridgeHandler.install();
-    }
-
-    public static interface URLS {
-        final String BASE = "http://localhost:" + jetty.getPort() + "/api";
     }
 }
