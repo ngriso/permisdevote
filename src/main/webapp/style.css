@@ -108,7 +108,9 @@ line-height:25px;}
   margin-left:200px;
   }
 
-
+.hidden {
+    display: none;
+}
 
 
 

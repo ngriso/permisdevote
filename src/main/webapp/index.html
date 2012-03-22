@@ -10,6 +10,7 @@
 
     <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/pure_min.js"></script>
     <script type="text/javascript" charset="utf-8" src="main.js"></script>
 
     <button type="button" id="backtop"><img src="img/btn_top.png" width="40" height="39"/></button>
@@ -57,8 +58,18 @@
     <br/>
     <br/>
 
-    <div class="candidacies"></div>
-    <div class="themes"></div>
+    <div class="candidacies">
+        <h2>
+            <div class="selectionItem">François Hollande</div>
+            <br/>
+        </h2>
+    </div>
+    <div class="themes">
+        <h2 id="themesTemplate">
+            <div class="selectionItem">Constitution et Institutions</div>
+            <br/>
+        </h2>
+    </div>
 </div>
 
 <div id="questions">
@@ -69,7 +80,32 @@
         <br/>
         <br/>
 
-        <div class="questionText"></div>
+        <div class="questionCandidacyText hidden">
+            <input type="hidden" data-questionId="{{= question.id}}">
+            <span data-selector="currentInfo">François Hollande</span>, <span class="text">concernant le domaine </span>
+            <span data-selector="theme">bla bla bla</span><span class="text">, a dit:</span><br/>
+            <span class="text" data-selector="question">{{= question.text}}</span><br/>
+            <br/>
+            <label>TRUE
+                <input type="radio" name="answer" value="true">
+            </label>
+            <label>FALSE
+                <input type="radio" name="answer" value="false">
+            </label>
+        </div>
+        <div class="questionThemeText hidden">
+            <input type="hidden" data-questionId="{{= question.id}}">
+            <span class="text">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,
+            <span data-selector="candidate">François Hollande</span><span class="text"> a dit:</span><br/>
+            <span class="text" data-selector="question">{{= question.text}}</span><br/><br/>
+            <label>TRUE
+                <input type="radio" name="answer" value="true">
+            </label>
+            <label>FALSE
+                <input type="radio" name="answer" value="false">
+            </label>
+        </div>
+
         <div class="badges"></div>
     </div>
 </div>
@@ -87,59 +123,6 @@
         <a>{{= tag.name}} {{= rights}} / {{= answered}}</a><br/>
         {{/each}}
     </h2>
-</script>
-
-<script id="themesTmpl" type="text/x-jquery-tmpl">
-    <h2>
-        {{each themes}}
-        <div class="selectionItem"
-             data-id="{{= id}}" data-type="tagId" data-info="{{= name}}">
-            {{= name}}
-        </div>
-        <br/>
-        {{/each}}
-    </h2>
-</script>
-
-<script id="candidates1Tmpl" type="text/x-jquery-tmpl">
-    <h2>
-        {{each candidacies}}
-        <div class="selectionItem"
-             data-id="{{= id}}"
-             data-type="candidacyId"
-             data-info="{{= candidate1.firstName}} {{= candidate1.lastName}}">
-            {{= candidate1.firstName}} {{= candidate1.lastName}}
-        </div>
-        <br/>
-        {{/each}}
-    </h2>
-</script>
-
-<script id="questionTmpl" type="text/x-jquery-tmpl">
-    <input type="hidden" data-questionId="{{= question.id}}">
-    {{= currentInfo}}, <span class="text">concernant le domaine </span>{{= question.tagLevel1.name}}, <span
-        class="text">a dit:</span><br/>
-    <span class="text">{{= question.text}}</span><br/><br/>
-    <label>TRUE
-        <input type="radio" name="answer" value="true">
-    </label>
-    <label>FALSE
-        <input type="radio" name="answer" value="false">
-    </label>
-</script>
-
-<script id="questionThemeTmpl" type="text/x-jquery-tmpl">
-    <input type="hidden" data-questionId="{{= question.id}}">
-    <span class="text">Concernant le domaine</span> {{= currentInfo}}, {{= question.candidacy.candidate1.firstName}} {{=
-    question.candidacy.candidate1.lastName}}
-    <span class="text">a dit:</span><br/>
-    <span class="text">{{= question.text}}</span><br/><br/>
-    <label>TRUE
-        <input type="radio" name="answer" value="true">
-    </label>
-    <label>FALSE
-        <input type="radio" name="answer" value="false">
-    </label>
 </script>
 
 </body>

@@ -18,9 +18,34 @@ var start = function() {
                 p2v.model.themes = data;
             })
     ).done(function() {
-                $(".candidacies").html($("#candidates1Tmpl").tmpl(p2v.model));
-                $(".themes").html($("#themesTmpl").tmpl(p2v.model));
-                $("span").click(clickOnCandidacyOrTheme);
+                var dirForCandidacies = {
+                    'div' :{
+                        'candidacy <- candidacies' :{
+                            '.': "#{candidacy.candidate1.firstName}  #{candidacy.candidate1.lastName}",
+                            '.@data-id': "candidacy.id",
+                            '.@data-type': function() {
+                                return "candidacyId";
+                            },
+                            '.@data-info': "#{candidacy.candidate1.firstName}  #{candidacy.candidate1.lastName}"
+                        }
+                    }
+                };
+                var dirForThemes = {
+                    'div' :{
+                        'theme <- themes' :{
+                            '.': "theme.name",
+                            '.@data-id': "theme.id",
+                            '.@data-type': function() {
+                                return "tagId";
+                            },
+                            '.@data-info': "theme.name"
+                        }
+                    }
+                };
+
+                $("#selection div.candidacies").render(p2v.model, dirForCandidacies);
+                $("#selection div.themes").render(p2v.model, dirForThemes);
+                $("#selection div div.selectionItem").click(clickOnCandidacyOrTheme);
                 $("img", "#compte").click(function() {
                     var profile = {username: $("#username").val()};
                     $.ajax({
@@ -42,17 +67,33 @@ var clickOnCandidacyOrTheme = function (event) {
     console.log(formatString("Selected badge: type:[{:type}], id:[{:id}]", {type:type, id:id}));
     var questionUrl = formatString(p2v.urls.questions_next, {type:type, typeId:id});
     nextQuestion(questionUrl, type);
-    var regex = /(.*)#/;
+    var regex = /(.*)[#]?/;
     var match = regex.exec(window.location.href);
-    window.location.href = match[0] + "question";
+    window.location.href = match[1] + "#question";
 };
 
 var nextQuestion = function(questionUrl, type) {
     $.get(questionUrl, function(data) {
         if (type === 'tagId') {
-            $(".questionText").html($("#questionThemeTmpl").tmpl({question:data, currentInfo: p2v.currentInfo}));
+            $(".questionCandidacyText").hide();
+            var dirForQuestionTheme = {
+                'input@data-questionId':"question.id",
+                'span[data-selector="currentInfo"]':"currentInfo",
+                'span[data-selector="candidate"]':"#{question.candidacy.candidate1.firstName} #{question.candidacy.candidate1.lastName}",
+                'span[data-selector="question"]':"question.text"
+            };
+            $(".questionThemeText").render({question:data, currentInfo: p2v.currentInfo}, dirForQuestionTheme);
+            $(".questionThemeText").show();
         } else {
-            $(".questionText").html($("#questionTmpl").tmpl({question:data, currentInfo: p2v.currentInfo}));
+            $(".questionThemeText").hide();
+            var dirForQuestionCandidacy = {
+                'input@data-questionId':"question.id",
+                'span[data-selector="currentInfo"]':"currentInfo",
+                'span[data-selector="theme"]':"question.tagLevel1.name",
+                'span[data-selector="question"]':"question.text"
+            };
+            $(".questionCandidacyText").render({question:data, currentInfo: p2v.currentInfo}, dirForQuestionCandidacy);
+            $(".questionCandidacyText").show();
         }
 
         $(":radio").click(function(event) {
@@ -78,7 +119,7 @@ var formatString = function(string, params) {
     for (var key in params) {
         if (params.hasOwnProperty(key)) {
             var value = params[key];
-            string = string.replace("{:" + key +"}", value);
+            string = string.replace("{:" + key + "}", value);
         }
     }
     return string;
