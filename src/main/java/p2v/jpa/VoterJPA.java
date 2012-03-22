@@ -32,7 +32,7 @@ public class VoterJPA {
         ResponseJPA response = ResponseJPA.build(this, question, answer);
         UserStatsJPA userStats = JpaUtil.findUserStatsByVoter(this);
         userStats.update(response);
-        GlobalStatsJPA.newAnswer(response);
+        StatsJPA.newAnswer(response);
         return response;
     }
 }

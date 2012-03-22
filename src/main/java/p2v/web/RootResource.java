@@ -1,10 +1,8 @@
 package p2v.web;
 
 import p2v.jpa.CandidacyJPA;
-import p2v.jpa.GlobalStatsJPA;
+import p2v.jpa.StatsJPA;
 import p2v.jpa.JpaUtil;
-import p2v.jpa.StatsCandidacyJPA;
-import p2v.jpa.StatsThemeJPA;
 import p2v.jpa.TagJPA;
 
 import javax.ws.rs.GET;
@@ -12,7 +10,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,15 +18,20 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class RootResource {
 
+    @Path("questions")
+    public Questions getQuestions() {
+        return new Questions();
+    }
+
+    @Path("voters")
+    public Voters voters() {
+        return new Voters();
+    }
+
     @GET
     @Path("themes")
     public List<TagJPA> getTagLevel1() {
         return JpaUtil.findThemes();
-    }
-
-    @Path("questions")
-    public Questions getQuestions() {
-        return new Questions();
     }
 
     @Path("candidacies")
@@ -47,26 +49,14 @@ public class RootResource {
         return result;
     }
 
-    @Path("voters")
-    public Voters voters() {
-        return new Voters();
-    }
-
     @Path("init_stats")
     @GET
     public Response initStats() {
-        List<GlobalStatsJPA> allGlobalStats = JpaUtil.getAllFrom(GlobalStatsJPA.class);
-        if (allGlobalStats.isEmpty()) {
-            GlobalStatsJPA globalStats = new GlobalStatsJPA();
-            globalStats.statsCandidacy = new ArrayList<StatsCandidacyJPA>();
-            for (CandidacyJPA candidacyJPA : JpaUtil.getAllFrom(CandidacyJPA.class)) {
-                globalStats.statsCandidacy.add(StatsCandidacyJPA.build(candidacyJPA));
-            }
-            globalStats.statsTheme = new ArrayList<StatsThemeJPA>();
-            for (TagJPA tagJPA : JpaUtil.findThemes()) {
-                globalStats.statsTheme.add(StatsThemeJPA.build(tagJPA));
-            }
-            JpaUtil.save(globalStats);
+        List<StatsJPA> allStats = JpaUtil.getAllFrom(StatsJPA.class);
+        if (allStats.isEmpty()) {
+            StatsJPA stats = new StatsJPA();
+            stats.initialize();
+            JpaUtil.save(stats);
             return Response.ok().build();
         }
         return Response.ok().build();
@@ -74,7 +64,7 @@ public class RootResource {
 
     @Path("stats")
     @GET
-    public Object getStats() {
-        return JpaUtil.getAllFrom(GlobalStatsJPA.class).get(0);
+    public StatsJPA getStats() {
+        return JpaUtil.getAllFrom(StatsJPA.class).get(0);
     }
 }

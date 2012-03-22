@@ -6,10 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class GlobalStatsJPA {
+public class StatsJPA {
 
     @JsonIgnore
     @Id
@@ -22,8 +23,19 @@ public class GlobalStatsJPA {
     public List<StatsThemeJPA> statsTheme;
 
     public static void newAnswer(ResponseJPA response) {
-        GlobalStatsJPA globalStats = JpaUtil.getAllFrom(GlobalStatsJPA.class).get(0);
-        globalStats.update(response);
+        StatsJPA stats = JpaUtil.getAllFrom(StatsJPA.class).get(0);
+        stats.update(response);
+    }
+
+    public void initialize() {
+        this.statsCandidacy = new ArrayList<StatsCandidacyJPA>();
+        for (CandidacyJPA candidacyJPA : JpaUtil.getAllFrom(CandidacyJPA.class)) {
+            this.statsCandidacy.add(StatsCandidacyJPA.build(candidacyJPA));
+        }
+        this.statsTheme = new ArrayList<StatsThemeJPA>();
+        for (TagJPA tagJPA : JpaUtil.findThemes()) {
+            this.statsTheme.add(StatsThemeJPA.build(tagJPA));
+        }
     }
 
     public void update(ResponseJPA response) {
