@@ -43,8 +43,8 @@ public class Questions {
 
     @Path("{questionId}/answer")
     @GET
-    public boolean answer(@PathParam("questionId") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
-        VoterJPA voter = JpaUtil.findVoterByUsername(username);
+    public boolean answer(@PathParam("questionId") Long questionId, @QueryParam("answer") String answer, @QueryParam("userID") String userID) {
+        VoterJPA voter = JpaUtil.findVoterByUserID(userID);
         QuestionJPA questionJPA = JpaUtil.findById(QuestionJPA.class, questionId);
         ResponseJPA response = voter.answer(questionJPA, answer);
         return response.correct;

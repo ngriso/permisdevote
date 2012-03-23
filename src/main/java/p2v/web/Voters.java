@@ -18,15 +18,13 @@ public class Voters {
 
     @POST
     public VoterJPA create(Profile profile) {
-        VoterJPA voter = VoterJPA.build(profile);
-        UserStatsJPA.build(voter);
-        return voter;
+        return VoterJPA.build(profile);
     }
 
-    @Path("{username}/stats")
+    @Path("{userID}/stats")
     @GET
-    public UserStatsJPA voter(@PathParam("username") String username) {
-        VoterJPA voter = JpaUtil.findVoterByUsername(username);
+    public UserStatsJPA voter(@PathParam("userID") String userID) {
+        VoterJPA voter = JpaUtil.findVoterByUserID(userID);
         return JpaUtil.findUserStatsByVoter(voter);
     }
 

@@ -154,10 +154,10 @@ public class JpaUtil {
                 .getSingleResult();
     }
 
-    public static VoterJPA findVoterByUsername(String username) {
+    public static VoterJPA findVoterByUserID(String userID) {
         return getEntityManager()
-                .createQuery("from VoterJPA where username = :username", VoterJPA.class)
-                .setParameter("username", username)
+                .createQuery("from VoterJPA where id = :userID", VoterJPA.class)
+                .setParameter("userID", userID)
                 .getSingleResult();
     }
 
