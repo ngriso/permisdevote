@@ -51,7 +51,7 @@
     <br/>
 </div>
 
-<div id="selection">
+<div id="selection" class="hidden" >
     <a name="selection"></a><br/>
     <br/>
     <br/><br/>
@@ -60,13 +60,13 @@
 
     <div class="candidacies">
         <h2>
-            <div class="selectionItem">François Hollande</div>
+            <div class="selectionItem candidacy">François Hollande</div>
             <br/>
         </h2>
     </div>
     <div class="themes">
         <h2 id="themesTemplate">
-            <div class="selectionItem">Constitution et Institutions</div>
+            <div class="selectionItem theme">Constitution et Institutions</div>
             <br/>
         </h2>
     </div>
@@ -81,11 +81,18 @@
         <br/>
 
         <div class="questionCandidacyText hidden">
-            <input type="hidden" data-questionId="{{= question.id}}">
             <span data-selector="currentInfo">François Hollande</span>, <span class="text">concernant le domaine </span>
             <span data-selector="theme">bla bla bla</span><span class="text">, a dit:</span><br/>
             <span class="text" data-selector="question">{{= question.text}}</span><br/>
             <br/>
+        </div>
+        <div class="questionThemeText hidden">
+            <span class="text">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,
+            <span data-selector="candidate">François Hollande</span><span class="text"> a dit:</span><br/>
+            <span class="text" data-selector="question">{{= question.text}}</span><br/><br/>
+        </div>
+
+        <div class="answers hidden">
             <label>TRUE
                 <input type="radio" name="answer" value="true">
             </label>
@@ -93,17 +100,11 @@
                 <input type="radio" name="answer" value="false">
             </label>
         </div>
-        <div class="questionThemeText hidden">
-            <input type="hidden" data-questionId="{{= question.id}}">
-            <span class="text">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,
-            <span data-selector="candidate">François Hollande</span><span class="text"> a dit:</span><br/>
-            <span class="text" data-selector="question">{{= question.text}}</span><br/><br/>
-            <label>TRUE
-                <input type="radio" name="answer" value="true">
-            </label>
-            <label>FALSE
-                <input type="radio" name="answer" value="false">
-            </label>
+
+        <div class="gotoNextQuestion hidden">
+            <h2 class="responseTextCorrect hidden">Réponse correcte</h2><br/>
+            <h2 class="responseTextIncorrect hidden">Réponse incorrecte</h2><br/>
+            <input type="button" value="Question suivante">
         </div>
 
         <div class="badges"></div>
@@ -128,6 +129,6 @@
 </body>
 
 <script type="text/javascript">
-    $(document).ready(start);
+    $(document).ready(application.start);
 </script>
 </html>
