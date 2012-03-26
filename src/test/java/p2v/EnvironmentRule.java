@@ -13,6 +13,7 @@ public class EnvironmentRule extends ExternalResource {
 
     private Server hsqlServer;
     private boolean fillDB;
+    
     public EnvironmentRule(boolean fillDB, int port, String webInfDif) {
         this.fillDB = fillDB;
         this.port = port;

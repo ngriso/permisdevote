@@ -8,7 +8,7 @@ var start = function() {
     p2v.urls.voters = "./api/voters";
     p2v.urls.questions = "./api/questions";
     p2v.urls.questions_next = p2v.urls.questions + "/next?{:type}={:typeId}";
-    p2v.urls.answer = p2v.urls.questions + "/{:questionId}/answer?answer={:answer}&username={:username}";
+    p2v.urls.answer = p2v.urls.questions + "/{:questionId}/answer?type={:type}&answer={:answer}&username={:username}";
 
     $.when(
             $.get(p2v.urls.candidacies, function(data) {
@@ -59,7 +59,8 @@ var nextQuestion = function(questionUrl, type) {
             var value = $(event.currentTarget).val();
             var questionId = $(".questionText :hidden").attr("data-questionId");
             p2v.username = $("#username").val();
-            var answerURL = formatString(p2v.urls.answer, {questionId:questionId, answer:value, username:p2v.username});
+            var answerURL = 
+            	formatString(p2v.urls.answer, {questionId:questionId, type:type, answer:value, username:p2v.username});
             console.log(answerURL);
             $.get(answerURL, function(data) {
                 console.log(data);
@@ -78,7 +79,7 @@ var formatString = function(string, params) {
     for (var key in params) {
         if (params.hasOwnProperty(key)) {
             var value = params[key];
-            string = string.replace("{:" + key +"}", value);
+            string = string.replace("{:" + key + "}", value);
         }
     }
     return string;

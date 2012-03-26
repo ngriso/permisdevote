@@ -27,4 +27,6 @@ public class UserStatsJPA extends GlobalStatsJPA {
         JpaUtil.save(userStats);
         return userStats;
     }
+
+	
 }

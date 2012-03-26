@@ -188,7 +188,8 @@ public class Fetcher {
     }
 
     private Client buildClient() {
-        System.getProperties().put("http.proxyHost", "gecd-proxy");
+//        System.getProperties().put("http.proxyHost", "gecd-proxy");
+    	System.getProperties().put("http.proxyHost", "proxyhttp");
         System.getProperties().put("http.proxyPort", "8080");
 
         ClientConfig cc = new DefaultClientConfig();

@@ -1,13 +1,15 @@
 package p2v.jpa;
 
-import com.google.common.base.Preconditions;
-import org.apache.commons.lang3.StringUtils;
-import p2v.web.Voters;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.apache.commons.lang3.StringUtils;
+
+import p2v.web.Voters;
+
+import com.google.common.base.Preconditions;
 
 @Entity
 public class VoterJPA {
@@ -35,4 +37,20 @@ public class VoterJPA {
         GlobalStatsJPA.newAnswer(response);
         return response;
     }
+
+    /**
+     * 
+     * @param question QuestionJPA
+     * @param type String - candidacyId ou tagId 
+     * @param answer String
+     * @return ResponseJPA
+     */
+	public ResponseJPA answer(QuestionJPA question, String type, String answer) {
+		ResponseJPA response = ResponseJPA.build(this, question, answer);
+		UserStatsJPA userStats = JpaUtil.findUserStatsByVoter(this);
+		userStats.update(response, type);
+		GlobalStatsJPA.newAnswer(response, type);
+		return response;
+	}
+	
 }

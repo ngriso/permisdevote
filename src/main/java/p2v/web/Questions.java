@@ -20,10 +20,13 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class Questions {
+	
+	public static final String CANDIDACY_ID = "candidacyId";
+	public static final String THEME_ID = "tagId"; 
 
     @Path("next")
     @GET
-    public QuestionJPA get(@QueryParam("candidacyId") String candidacyId, @QueryParam("tagId") String tagId) {
+    public QuestionJPA get(@QueryParam(CANDIDACY_ID) String candidacyId, @QueryParam(THEME_ID) String tagId) {
         List<Long> listOfIdQuestion = null;
         if (StringUtils.isNotBlank(candidacyId)) {
             listOfIdQuestion = JpaUtil.findQuestionsIdByCandidacyId(candidacyId);
@@ -43,10 +46,21 @@ public class Questions {
 
     @Path("{questionId}/answer")
     @GET
-    public boolean answer(@PathParam("questionId") Long questionId, @QueryParam("answer") String answer, @QueryParam("username") String username) {
+    /**
+     * 
+     * @param questionId
+     * @param type String - candidacyId ou tagId 
+     * @param answer String
+     * @param username String
+     * @return boolean
+     */
+    public boolean answer(@PathParam("questionId") Long questionId,
+    		@QueryParam("type") String type,
+    		@QueryParam("answer") String answer, 
+    		@QueryParam("username") String username) {
         VoterJPA voter = JpaUtil.findVoterByUsername(username);
         QuestionJPA questionJPA = JpaUtil.findById(QuestionJPA.class, questionId);
-        ResponseJPA response = voter.answer(questionJPA, answer);
+        ResponseJPA response = voter.answer(questionJPA, type, answer);
         return response.correct;
     }
 
