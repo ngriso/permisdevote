@@ -9,7 +9,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/jquery.tmpl.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/pure_min.js"></script>
     <script type="text/javascript" charset="utf-8" src="main.js"></script>
 
@@ -107,24 +106,16 @@
             <input type="button" value="Question suivante">
         </div>
 
-        <div class="badges"></div>
+        <div class="badges hidden">
+            <h2 class="badgesCandidacies">
+                <div>François Hollande 14 / 23</div>
+            </h2>
+            <h2 class="badgesThemes">
+                <div>Constitution et Institutions 2 / 123</div>
+            </h2>
+        </div>
     </div>
 </div>
-
-<script id="badgesTmpl" type="text/x-jquery-tmpl">
-    <h2>
-        {{each statsCandidacy}}
-        <a>{{= candidacy.candidate1.firstName}} {{= candidacy.candidate1.lastName}} {{= rights}} / {{=
-            answered}}</a><br/>
-        {{/each}}
-    </h2>
-
-    <h2>
-        {{each statsTheme}}
-        <a>{{= tag.name}} {{= rights}} / {{= answered}}</a><br/>
-        {{/each}}
-    </h2>
-</script>
 
 </body>
 

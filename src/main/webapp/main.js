@@ -19,7 +19,23 @@ var application = {
             answer : function(questionID, answer) {
                 return "./api/questions/" + questionID + "/answer?answer=" + answer + "&userID=" + application.data.userID
             }
-        }
+        };
+        var dirForBadgesCandidacies = {
+            'div' : {
+                'statCandiday <- statsCandidacy':{
+                    '.': "#{statCandiday.candidacy.candidate1.firstName} #{statCandiday.candidacy.candidate1.lastName} #{statCandiday.rights} / #{statCandiday.answered}"
+                }
+            }
+        };
+        application.cachedTemplateForBadgesCandidacies = $("div.badges h2.badgesCandidacies").compile(dirForBadgesCandidacies);
+        var dirForBadgesThemes = {
+            'div' : {
+                'statTheme <- statsTheme':{
+                    '.': "#{statTheme.tag.name} #{statTheme.rights} / #{statTheme.answered}"
+                }
+            }
+        };
+        application.cachedTemplateForBadgesThemes = $("div.badges h2.badgesThemes").compile(dirForBadgesThemes);
     },
     start : function() {
         application.initialize();
@@ -123,10 +139,14 @@ var application = {
         $(".questionCandidacyText").show();
     },
     clickOnResponse : function(event) {
+        $(".answers").hide();
+        $(".gotoNextQuestion").show();
+        $("div.question :button").click(application.nextQuestion);
         var value = $(event.currentTarget).val();
         var questionId = $("div.question").attr("data-questionId");
         var answerURL = application.urls.answer(questionId, value);
         $.get(answerURL, function(data) {
+            application.renderBadges();
             if (data) {
                 $("h2.responseTextIncorrect").hide();
                 $("h2.responseTextCorrect").show();
@@ -134,13 +154,14 @@ var application = {
                 $("h2.responseTextCorrect").hide();
                 $("h2.responseTextIncorrect").show();
             }
-            $("div.question :button").click(application.nextQuestion);
-            var voterStatsURL = application.urls.voter_stats();
-            $.get(voterStatsURL, function(data) {
-                $(".badges").html($("#badgesTmpl").tmpl(data));
-                $(".answers").hide();
-                $(".gotoNextQuestion").show();
-            });
+        });
+    },
+    renderBadges:function() {
+        var voterStatsURL = application.urls.voter_stats();
+        $.get(voterStatsURL, function(data) {
+            $("div.badges h2.badgesCandidacies").render(data, application.cachedTemplateForBadgesCandidacies);
+            $("div.badges h2.badgesThemes").render(data, application.cachedTemplateForBadgesThemes);
+            $(".badges").show();
         });
     }
 };
