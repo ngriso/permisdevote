@@ -7,7 +7,6 @@ import p2v.jpa.TagJPA;
 import p2v.jpa.UserStatsJPA;
 import p2v.jpa.VoterJPA;
 
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
@@ -68,20 +67,6 @@ public class RootResource {
             }
         });
         return result;
-    }
-
-    @Path("init_stats")
-    @GET
-    public Response initStats() {
-        try {
-            JpaUtil.getGlobalStats();
-        } catch (NoResultException e) {
-            StatsJPA stats = new StatsJPA();
-            stats.initialize();
-            JpaUtil.save(stats);
-            return Response.ok().build();
-        }
-        return Response.ok().build();
     }
 
     @Path("stats")

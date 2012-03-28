@@ -12,6 +12,7 @@ import p2v.jpa.CandidateJPA;
 import p2v.jpa.JpaUtil;
 import p2v.jpa.PropositionJPA;
 import p2v.jpa.QuestionJPA;
+import p2v.jpa.StatsJPA;
 import p2v.jpa.TagJPA;
 import p2v.voxe.Candidacy;
 import p2v.voxe.Candidate;
@@ -42,6 +43,18 @@ public class Fetcher {
         fetchCandidates();
         fetchPropositions();
         generateQuestions();
+        initGlobalStats();
+    }
+
+    private void initGlobalStats() {
+        JpaUtil.makeTransactional(new Runnable() {
+            @Override
+            public void run() {
+                StatsJPA stats = new StatsJPA();
+                stats.initialize();
+                JpaUtil.save(stats);
+            }
+        });
     }
 
     private void generateQuestions() throws Exception {
