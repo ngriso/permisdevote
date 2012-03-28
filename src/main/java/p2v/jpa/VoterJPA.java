@@ -28,4 +28,20 @@ public class VoterJPA {
         StatsJPA.newAnswer(response);
         return response;
     }
+
+    /**
+     * 
+     * @param question QuestionJPA
+     * @param type String - candidacyId ou tagId 
+     * @param answer String
+     * @return ResponseJPA
+     */
+	public ResponseJPA answer(QuestionJPA question, String type, String answer) {
+		ResponseJPA response = ResponseJPA.build(this, question, answer);
+		UserStatsJPA userStats = JpaUtil.findUserStatsByVoter(this);
+		userStats.update(response, type);
+		StatsJPA.newAnswer(response, type);
+		return response;
+	}
+	
 }

@@ -15,7 +15,7 @@ var application = {
                 return "./api/questions/next?" + (application.data.currentType === 'tagId' ? "tagId=" : "candidacyId=") + application.data.currentSelectedTypeId
             },
             answer : function(questionID, answer) {
-                return "./api/questions/" + questionID + "/answer?answer=" + answer
+                return "./api/questions/" + questionID + "/answer?answer=" + answer + "&type=" + application.data.currentType;
             }
         };
         var dirForBadgesCandidacies = {
