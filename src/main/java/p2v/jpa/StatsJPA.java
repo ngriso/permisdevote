@@ -24,11 +24,6 @@ public class StatsJPA {
     @OneToMany
     public List<StatsThemeJPA> statsTheme;
 
-    public static void newAnswer(ResponseJPA response) {
-        StatsJPA stats = JpaUtil.getAllFrom(StatsJPA.class).get(0);
-        stats.update(response);
-    }
-
     public void initialize() {
         this.statsCandidacy = new ArrayList<StatsCandidacyJPA>();
         for (CandidacyJPA candidacyJPA : JpaUtil.getAllFrom(CandidacyJPA.class)) {
@@ -46,22 +41,10 @@ public class StatsJPA {
      * @param type String - candidacyId ou tagId 
      */
     public static void newAnswer(ResponseJPA response, String type) {
-    	   StatsJPA globalStats = JpaUtil.getAllFrom(StatsJPA.class).get(0);
+    	   StatsJPA globalStats = JpaUtil.getGlobalStats();
            globalStats.update(response, type);
 	}
 
-    public void update(ResponseJPA response) {
-        StatsCandidacyJPA statsCandidacy = this.getOrCreateStatsForCandidacy(response.question.candidacy);
-        StatsThemeJPA statsTheme = this.getOrCreateStatsForTheme(response.question.tagLevel1);
-        statsCandidacy.answered++;
-        statsTheme.answered++;
-        if (response.correct) {
-            statsCandidacy.rights++;
-            statsTheme.rights++;
-        }
-        JpaUtil.update(this);
-    }
-    
     /**
      * Mise à jour des statistiques, soit ceux concernant les candidats, ou les thèmes.
      * @param response ResponseJPA

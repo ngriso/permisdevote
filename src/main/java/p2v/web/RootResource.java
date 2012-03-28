@@ -1,12 +1,13 @@
 package p2v.web;
 
 import p2v.jpa.CandidacyJPA;
-import p2v.jpa.StatsJPA;
 import p2v.jpa.JpaUtil;
+import p2v.jpa.StatsJPA;
 import p2v.jpa.TagJPA;
 import p2v.jpa.UserStatsJPA;
 import p2v.jpa.VoterJPA;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
@@ -72,8 +73,9 @@ public class RootResource {
     @Path("init_stats")
     @GET
     public Response initStats() {
-        List<StatsJPA> allStats = JpaUtil.getAllFrom(StatsJPA.class);
-        if (allStats.isEmpty()) {
+        try {
+            JpaUtil.getGlobalStats();
+        } catch (NoResultException e) {
             StatsJPA stats = new StatsJPA();
             stats.initialize();
             JpaUtil.save(stats);
@@ -85,7 +87,7 @@ public class RootResource {
     @Path("stats")
     @GET
     public StatsJPA getStats() {
-        return JpaUtil.getAllFrom(StatsJPA.class).get(0);
+        return JpaUtil.getGlobalStats();
     }
 
     @Path("myStats")

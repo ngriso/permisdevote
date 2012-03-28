@@ -125,14 +125,6 @@ public class JpaUtil {
         return entity;
     }
 
-    public static ResponseJPA findResponseByVoterAndQuestion(Long questionId, VoterJPA voter) {
-        return getEntityManager()
-                .createQuery("from ResponseJPA where voter = :electeur and question.id = :questionId", ResponseJPA.class)
-                .setParameter("electeur", voter)
-                .setParameter("questionId", questionId)
-                .getSingleResult();
-    }
-
     public static List<Long> findQuestionsIdByCandidacyId(String candidacyId) {
         return getEntityManager()
                 .createQuery("select id from QuestionJPA where candidacy.id = :candidacyId", Long.class)
@@ -154,13 +146,6 @@ public class JpaUtil {
                 .getSingleResult();
     }
 
-    public static VoterJPA findVoterByUserID(String userID) {
-        return getEntityManager()
-                .createQuery("from VoterJPA where id = :userID", VoterJPA.class)
-                .setParameter("userID", userID)
-                .getSingleResult();
-    }
-
     public static List<PropositionJPA> findPropositionsByCandidacy(CandidacyJPA candidacy) {
         return getEntityManager()
                 .createQuery("from PropositionJPA where candidacy = :candidacy", PropositionJPA.class)
@@ -173,5 +158,12 @@ public class JpaUtil {
                 .createQuery("from PropositionJPA where candidacy != :candidacy", PropositionJPA.class)
                 .setParameter("candidacy", candidacy)
                 .getResultList();
+    }
+
+    public static StatsJPA getGlobalStats() {
+        return getEntityManager()
+                .createQuery("from StatsJPA", StatsJPA.class)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 }

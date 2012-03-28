@@ -21,14 +21,6 @@ public class VoterJPA {
         return voterJPA;
     }
 
-    public ResponseJPA answer(QuestionJPA question, String answer) {
-        ResponseJPA response = ResponseJPA.build(this, question, answer);
-        UserStatsJPA userStats = JpaUtil.findUserStatsByVoter(this);
-        userStats.update(response);
-        StatsJPA.newAnswer(response);
-        return response;
-    }
-
     /**
      * 
      * @param question QuestionJPA
