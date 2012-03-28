@@ -75,7 +75,7 @@ public final class HibernateHsqlHelper {
     public static Server startDB(String dbURL) {
         Server hsqlServer = new Server();
         hsqlServer.setLogWriter(new PrintWriter(System.out));
-        hsqlServer.setSilent(true);
+//        hsqlServer.setSilent(true);
         hsqlServer.setDatabaseName(0, "");
         hsqlServer.setDatabasePath(0, dbURL);
         hsqlServer.start();

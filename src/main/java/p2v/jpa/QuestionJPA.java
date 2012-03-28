@@ -15,7 +15,7 @@ public class QuestionJPA {
     @GeneratedValue
     public Long id;
 
-    @Column(columnDefinition = "VARCHAR(1000000)")
+    @Column(columnDefinition = "LONGVARCHAR")
     public String text;
 
     @JsonIgnore

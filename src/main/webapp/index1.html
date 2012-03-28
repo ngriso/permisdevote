@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Permis de vote</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700' rel='stylesheet' type='text/css'>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/pure_min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="main.js"></script>
+
+    <button type="button" id="backtop"><img src="img/btn_top.png" width="40" height="39"/></button>
+</head>
+
+<body>
+
+<div id="header">
+    <img src="img/share.png" width="137" height="21" alt="share"/>
+</div>
+
+<div id="nav"></div>
+
+<div id="home"><img src="img/logo_bg.png" width="606" height="550" alt="permis"/>
+    <br/>
+    <br/>
+    <br/>
+    <a href="#compte"><img src="img/down.png" width="40" height="39" alt="next"/></a>
+    <br/>
+    <br/>
+</div>
+
+<div id="compte">
+    <a name="compte"></a><br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <h1>
+        PSEUDO<br/>
+        <input type="text" id="username">
+    </h1>
+    <a href="#selection"><img src="img/down.png" width="40" height="39" alt="next"/></a><br/>
+    <br/>
+    <span class="text">Avez vous le niveau requis pour aller voter?<br/> Passez le Permis!</span><br/>
+    <br/>
+</div>
+
+<div id="selection" class="hidden" >
+    <a name="selection"></a><br/>
+    <br/>
+    <br/><br/>
+    <br/>
+    <br/>
+
+    <div class="candidacies">
+        <h2>
+            <div class="selectionItem candidacy">François Hollande</div>
+            <br/>
+        </h2>
+    </div>
+    <div class="themes">
+        <h2 id="themesTemplate">
+            <div class="selectionItem theme">Constitution et Institutions</div>
+            <br/>
+        </h2>
+    </div>
+</div>
+
+<div id="questions">
+    <a name="question"></a>
+
+    <div class="question"><br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <div class="questionCandidacyText hidden">
+            <span data-selector="currentInfo">François Hollande</span>, <span class="text">concernant le domaine </span>
+            <span data-selector="theme">bla bla bla</span><span class="text">, a dit:</span><br/>
+            <span class="text" data-selector="question">{{= question.text}}</span><br/>
+            <br/>
+        </div>
+        <div class="questionThemeText hidden">
+            <span class="text">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,
+            <span data-selector="candidate">François Hollande</span><span class="text"> a dit:</span><br/>
+            <span class="text" data-selector="question">{{= question.text}}</span><br/><br/>
+        </div>
+
+        <div class="answers hidden">
+            <label>TRUE
+                <input type="radio" name="answer" value="true">
+            </label>
+            <label>FALSE
+                <input type="radio" name="answer" value="false">
+            </label>
+        </div>
+
+        <div class="gotoNextQuestion hidden">
+            <h2 class="responseTextCorrect hidden">Réponse correcte</h2><br/>
+            <h2 class="responseTextIncorrect hidden">Réponse incorrecte</h2><br/>
+            <input type="button" value="Question suivante">
+        </div>
+
+        <div class="badges hidden">
+            <h2 class="badgesCandidacies">
+                <div>François Hollande 14 / 23</div>
+            </h2>
+            <h2 class="badgesThemes">
+                <div>Constitution et Institutions 2 / 123</div>
+            </h2>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    $(document).ready(application.start);
+</script>
+</html>

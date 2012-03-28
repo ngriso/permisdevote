@@ -17,7 +17,7 @@ public class PropositionJPA {
 
     @Id
     public String id;
-    @Column(columnDefinition = "VARCHAR(1000000)")
+    @Column(columnDefinition = "LONGVARCHAR")
     public String text;
 
     @ManyToOne(optional = false)
