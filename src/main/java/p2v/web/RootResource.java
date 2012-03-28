@@ -4,10 +4,17 @@ import p2v.jpa.CandidacyJPA;
 import p2v.jpa.StatsJPA;
 import p2v.jpa.JpaUtil;
 import p2v.jpa.TagJPA;
+import p2v.jpa.UserStatsJPA;
+import p2v.jpa.VoterJPA;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
@@ -18,14 +25,27 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class RootResource {
 
+    public static final String KEY_FOR_VOTER = "VOTER";
+
+    public static HttpSession getSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            throw new WebApplicationException(Response.Status.FORBIDDEN);
+        }
+        return session;
+    }
+
     @Path("questions")
     public Questions getQuestions() {
         return new Questions();
     }
 
     @Path("voters")
-    public Voters voters() {
-        return new Voters();
+    @POST
+    public VoterJPA create(VoterJPA dto, @Context HttpServletRequest request) {
+        VoterJPA voter = VoterJPA.build(dto);
+        request.getSession(true).setAttribute(KEY_FOR_VOTER, voter);
+        return voter;
     }
 
     @GET
@@ -66,5 +86,12 @@ public class RootResource {
     @GET
     public StatsJPA getStats() {
         return JpaUtil.getAllFrom(StatsJPA.class).get(0);
+    }
+
+    @Path("myStats")
+    @GET
+    public UserStatsJPA voter(@Context HttpServletRequest request) {
+        VoterJPA voter = (VoterJPA) getSession(request).getAttribute(KEY_FOR_VOTER);
+        return JpaUtil.findUserStatsByVoter(voter);
     }
 }

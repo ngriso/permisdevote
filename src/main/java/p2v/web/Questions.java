@@ -7,12 +7,14 @@ import p2v.jpa.QuestionJPA;
 import p2v.jpa.ResponseJPA;
 import p2v.jpa.VoterJPA;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
@@ -43,8 +45,8 @@ public class Questions {
 
     @Path("{questionId}/answer")
     @GET
-    public boolean answer(@PathParam("questionId") Long questionId, @QueryParam("answer") String answer, @QueryParam("userID") String userID) {
-        VoterJPA voter = JpaUtil.findVoterByUserID(userID);
+    public boolean answer(@PathParam("questionId") Long questionId, @QueryParam("answer") String answer, @Context HttpServletRequest request) {
+        VoterJPA voter = (VoterJPA) RootResource.getSession(request).getAttribute(RootResource.KEY_FOR_VOTER);
         QuestionJPA questionJPA = JpaUtil.findById(QuestionJPA.class, questionId);
         ResponseJPA response = voter.answer(questionJPA, answer);
         return response.correct;

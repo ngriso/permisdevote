@@ -10,14 +10,12 @@ var application = {
             themes : "./api/themes",
             candidacies : "./api/candidacies",
             voters : "./api/voters",
-            voter_stats : function() {
-                return "./api/voters/" + application.data.userID + "/stats"
-            },
+            voter_stats : "./api/myStats",
             next_question: function() {
                 return "./api/questions/next?" + (application.data.currentType === 'tagId' ? "tagId=" : "candidacyId=") + application.data.currentSelectedTypeId
             },
             answer : function(questionID, answer) {
-                return "./api/questions/" + questionID + "/answer?answer=" + answer + "&userID=" + application.data.userID
+                return "./api/questions/" + questionID + "/answer?answer=" + answer
             }
         };
         var dirForBadgesCandidacies = {
@@ -157,7 +155,7 @@ var application = {
         });
     },
     renderBadges:function() {
-        var voterStatsURL = application.urls.voter_stats();
+        var voterStatsURL = application.urls.voter_stats;
         $.get(voterStatsURL, function(data) {
             $("div.badges h2.badgesCandidacies").render(data, application.cachedTemplateForBadgesCandidacies);
             $("div.badges h2.badgesThemes").render(data, application.cachedTemplateForBadgesThemes);

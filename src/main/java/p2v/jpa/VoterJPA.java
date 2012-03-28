@@ -1,7 +1,5 @@
 package p2v.jpa;
 
-import p2v.web.Voters;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
@@ -10,14 +8,14 @@ import java.util.UUID;
 public class VoterJPA {
 
     @Id
-    private String id;
+    public String id;
 
     public String username;
 
-    public static VoterJPA build(Voters.Profile profile) {
+    public static VoterJPA build(VoterJPA dto) {
         VoterJPA voterJPA = new VoterJPA();
         voterJPA.id = UUID.randomUUID().toString();
-        voterJPA.username = profile.username;
+        voterJPA.username = dto.username;
         JpaUtil.save(voterJPA);
         UserStatsJPA.build(voterJPA);
         return voterJPA;
