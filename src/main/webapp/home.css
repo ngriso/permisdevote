@@ -23,6 +23,13 @@ body {
     top: 0;
     position: fixed;
 }
+#header ul {
+	display : inline;
+}
+
+#header li {
+	text-decoration: none;
+}
 
 .share {
     margin-top: 10px;

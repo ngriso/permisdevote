@@ -11,7 +11,23 @@ html {
   vertical-align:middle;
 }
 
-#header{ opacity:0.5; border-bottom-color:#FFF; height:50px;}
+#header { 
+	opacity:0.5; 
+	border-bottom-color:#FFF; 
+	height:50px;
+}
+#header ul {
+	margin: 0;
+	padding: 0;
+}
+#header li {
+	display : inline;
+	list-style-type: none;
+}
+#header a {
+	text-decoration: none;
+}
+
 .text{font-weight: 400;
 font-size:25px;
 line-height:25px; font-family: 'Rokkitt', serif;
