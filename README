@@ -3,4 +3,6 @@ GET all themes              /api/themes
 GET one question            /api/questions?candidacyId=<CANDIDACY_ID>
 GET one question            /api/questions?tagId=<TAG_ID>
 POST answser                /api/questions/<QUESTION_ID>?answser=<TRUE/FALSE>&username=<USERNAME>
-GET stats                  /api/stats/<USERNAME>
+GET stats                  	/api/stats/<USERNAME>
+
+GET Sign in Facebook		/api/signin/facebook : En cours...
