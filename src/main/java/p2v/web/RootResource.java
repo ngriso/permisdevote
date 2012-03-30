@@ -1,11 +1,8 @@
 package p2v.web;
 
-import p2v.jpa.CandidacyJPA;
-import p2v.jpa.JpaUtil;
-import p2v.jpa.StatsJPA;
-import p2v.jpa.TagJPA;
-import p2v.jpa.UserStatsJPA;
-import p2v.jpa.VoterJPA;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,9 +14,16 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
+import org.springframework.social.facebook.api.Reference;
+
+import p2v.jpa.CandidacyJPA;
+import p2v.jpa.JpaUtil;
+import p2v.jpa.StatsJPA;
+import p2v.jpa.TagJPA;
+import p2v.jpa.UserStatsJPA;
+import p2v.jpa.VoterJPA;
+import p2v.web.signin.SignIn;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -81,4 +85,17 @@ public class RootResource {
         VoterJPA voter = (VoterJPA) getSession(request).getAttribute(KEY_FOR_VOTER);
         return JpaUtil.findUserStatsByVoter(voter);
     }
+    
+    @Path("signin/facebook")
+    @GET
+    public List<Reference> getSignFacebook() {
+    	return (new SignIn()).facebook();
+    } 
+    
+//    @Path("signin")
+//    @GET
+//    public SignIn signinFacebook() {
+//    	return new SignIn();
+//    } 
+    
 }
