@@ -52,9 +52,9 @@ var application = {
         };
 //        application.cachedTemplateForBadgesCandidacies = $("div.results").compile(dirForBadgesCandidacies);
         var dirForBadgesThemes = {
-            'li' : {
+            'div' : {
                 'statTheme <- statsTheme':{
-                    'img@src': "img/themes/#{statTheme.tag.namespace}.png"
+                    'li.resultsthemes img@src': "img/themes/#{statTheme.tag.namespace}.png"
                 }
             }
         };
