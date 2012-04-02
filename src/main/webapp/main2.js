@@ -44,21 +44,21 @@ var application = {
         application.templates.listCandidacies = $("div.candi").compile(dirForCandidacies);
 
         var dirForBadgesCandidacies = {
-            'div' : {
+            'li' : {
                 'statCandiday <- statsCandidacy':{
                     '.': "#{statCandiday.candidacy.candidate1.firstName} #{statCandiday.candidacy.candidate1.lastName} #{statCandiday.rights} / #{statCandiday.answered}"
                 }
             }
         };
-//        application.cachedTemplateForBadgesCandidacies = $("div.badges h2.badgesCandidacies").compile(dirForBadgesCandidacies);
+//        application.cachedTemplateForBadgesCandidacies = $("div.results").compile(dirForBadgesCandidacies);
         var dirForBadgesThemes = {
-            'div' : {
+            'li' : {
                 'statTheme <- statsTheme':{
-                    '.': "#{statTheme.tag.name} #{statTheme.rights} / #{statTheme.answered}"
+                    'img@src': "img/themes/#{statTheme.tag.namespace}.png"
                 }
             }
         };
-//        application.cachedTemplateForBadgesThemes = $("div.badges h2.badgesThemes").compile(dirForBadgesThemes);
+        application.cachedTemplateForBadgesThemes = $("div.results").compile(dirForBadgesThemes);
     },
     start : function() {
         $.smAnchor(null);
@@ -90,8 +90,12 @@ var application = {
                 application.data.userID = data.id;
             }
         });
-        application.renderCandidaciesList();
-        application.renderThemeList();
+        $.when(
+                application.renderCandidaciesList(),
+                application.renderThemeList()
+        ).done(function() {
+                    $("#selection").show();
+                });
     },
     renderCandidaciesList:function() {
         $("div.candi").render(application.model, application.templates.listCandidacies);
@@ -138,6 +142,8 @@ var application = {
             $(".answers").show();
             $(".gotoNextQuestion").hide();
             $("div.reponse li").click(application.clickOnResponse);
+            $("#questions").show();
+            $('a[href="#questions"]').click();
         });
     },
     renderQuestionTheme:function(data) {
@@ -179,9 +185,9 @@ var application = {
     renderBadges:function() {
         var voterStatsURL = application.urls.voter_stats;
         $.get(voterStatsURL, function(data) {
-            $("div.badges h2.badgesCandidacies").render(data, application.cachedTemplateForBadgesCandidacies);
-            $("div.badges h2.badgesThemes").render(data, application.cachedTemplateForBadgesThemes);
-            $(".badges").show();
+//            $("div.badges h2.badgesCandidacies").render(data, application.cachedTemplateForBadgesCandidacies);
+            $("div.results").render(data, application.cachedTemplateForBadgesThemes);
+            $("#results").show();
         });
     }
 };
