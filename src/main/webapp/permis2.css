@@ -65,19 +65,10 @@ li{
 
 }
 
-/*/////////////////////// menu ////////////////////////*/
 
-#content{
-	float:left;
-	width:1000px;
-	left:70px;
-	right::50%;
-	position:absolute;
-	text-align:center
- 	}
 
  
- /*/////////////////////// content ////////////////////////*/
+ /*/////////////////////// menu ////////////////////////*/
 #menu{
 	padding-top:150px;
 	height:250px;
@@ -85,10 +76,10 @@ li{
 	text-align:left;
 	width:200px;
 	font-size:14px;
-	padding-left:70px;
 	float:left;
 	height:100%;
 	border-right:dotted #CCC thin;
+	margin-left:150px;
 
 }
 .menu{			
@@ -120,14 +111,17 @@ li{
 }
 
 
+ /*/////////////////////// container ////////////////////////*/
 
 
 
 
 
 #container{
-	width:900px;
-	float:left;
+	width:1000px;
+	left:350px;
+	position:absolute;
+
 
 	}
 	.next{clear:both;
@@ -230,25 +224,23 @@ h1 a:hover{
 	transition:background 0s;
 
 	}
-	
+	 /*/////////////////////// selection ////////////////////////*/
+
 #themes{
 	text-align:center;
 	width:900px;
 	border-style: none;
 
 	 }
-.content{
-	}
+
 .themes{
 		width:700px;
 		margin-top:50px;
 		margin-bottom:100px;
-		margin-left:343px;
 		}
 #li{}
 .themes2{
 	opacity:1; 
-	margin-left:17px; 
 	}
 .themes2:hover{opacity:0.5;}
 
@@ -260,11 +252,9 @@ h1 a:hover{
 	border-style: none;
 
 	 }
-.content{
-	}
+
 .candi{
 	width: 700px; 
-	margin-left:343px; 
 	margin-top:20px; 
 }
 #li{}
@@ -283,7 +273,6 @@ h1 a:hover{
  }
 .questions{
 	width:500px;
-	margin-left:343px; 
 	font-family: 'Rokkitt', sherif;
 	font-size:24px;
 	font-weight:400;
@@ -293,8 +282,9 @@ h1 a:hover{
 	margin-bottom:60px;
 	
 }
-.reponse{width: 200px; margin-left:343px;  }
-.reponse2{opacity:0.5; margin-left:15px; float:left; }
+.reponse{width: 200px;
+}
+.reponse2{opacity:0.5; float:left; }
 .reponse2:hover{opacity:1;}
 
 
@@ -307,29 +297,26 @@ h1 a:hover{
 }
 
 .results{
-	margin-left:343px; 
 	background-image:url('img/grille.png');
 	background-repeat:no-repeat;
 	height:319px;
 	}
 .results li{
-	padding-top:30%;
 	height:319px;
 	
 }
-.resultsthemes{
-	margin-left:17px;
-	height:319px;
+.results li img{
+	margin-top:719%;
+	
+}
 
+.resultsthemes{
+	height:319px;
+	}	
+.prctthemes{
 	}	
 	
-	
-#scores{
-	margin-left:900px;
-	position: fixed;
-	margin-top:150px;
-	text-align:left;	
-}	
+
 	
 	
 	
