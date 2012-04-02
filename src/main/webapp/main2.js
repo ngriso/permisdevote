@@ -61,6 +61,7 @@ var application = {
 //        application.cachedTemplateForBadgesThemes = $("div.badges h2.badgesThemes").compile(dirForBadgesThemes);
     },
     start : function() {
+        $.smAnchor(null);
         application.initialize();
         $.when(
                 $.get(application.urls.candidacies, function(data) {
@@ -94,25 +95,33 @@ var application = {
     },
     renderCandidaciesList:function() {
         $("div.candi").render(application.model, application.templates.listCandidacies);
-        $("li.candi2").hover(function(event){
+        $("li.candi2").hover(function(event) {
             $("h1.permis_choisi").html($(event.currentTarget).attr("data-info"));
         });
         $("li.candi2").click(function(event) {
             application.data.currentType = "candidacyId";
             application.data.currentSelectedTypeId = $(event.currentTarget).attr("data-id");
             application.currentInfo = $(event.currentTarget).attr("data-info");
+            var srcImgPermis1 = $(event.currentTarget).find("img").attr("src");
+            var srcImgPermis = srcImgPermis1.replace("1", "");
+            $("img.current_permis").attr("src", srcImgPermis);
+            $("span.current_permis").html(application.currentInfo);
             application.nextQuestion();
         });
     },
     renderThemeList:function() {
         $("div.themes").render(application.model, application.templates.listThemes);
-        $("li.themes2").hover(function(event){
+        $("li.themes2").hover(function(event) {
             $("h1.permis_choisi").html($(event.currentTarget).attr("data-info"));
         });
         $("li.themes2").click(function(event) {
             application.data.currentType = "tagId";
             application.data.currentSelectedTypeId = $(event.currentTarget).attr("data-id");
             application.currentInfo = $(event.currentTarget).attr("data-info");
+            var srcImgPermis1 = $(event.currentTarget).find("img").attr("src");
+            var srcImgPermis = srcImgPermis1.replace("1", "");
+            $("img.current_permis").attr("src", srcImgPermis);
+            $("span.current_permis").html(application.currentInfo);
             application.nextQuestion();
         });
     },
