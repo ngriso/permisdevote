@@ -94,6 +94,9 @@ var application = {
     },
     renderCandidaciesList:function() {
         $("div.candi").render(application.model, application.templates.listCandidacies);
+        $("li.candi2").hover(function(event){
+            $("h1.permis_choisi").html($(event.currentTarget).attr("data-info"));
+        });
         $("li.candi2").click(function(event) {
             application.data.currentType = "candidacyId";
             application.data.currentSelectedTypeId = $(event.currentTarget).attr("data-id");
@@ -103,6 +106,9 @@ var application = {
     },
     renderThemeList:function() {
         $("div.themes").render(application.model, application.templates.listThemes);
+        $("li.themes2").hover(function(event){
+            $("h1.permis_choisi").html($(event.currentTarget).attr("data-info"));
+        });
         $("li.themes2").click(function(event) {
             application.data.currentType = "tagId";
             application.data.currentSelectedTypeId = $(event.currentTarget).attr("data-id");
