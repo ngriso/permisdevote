@@ -252,7 +252,8 @@ h1 a:hover{
 	}
 .themes2:hover{opacity:0.5;}
 
-/*     candi    */		
+/*     candi    */
+
 #candi{
 	text-align:center;
 	width:900px;
@@ -296,12 +297,31 @@ h1 a:hover{
 .reponse2{opacity:0.5; margin-left:15px; float:left; }
 .reponse2:hover{opacity:1;}
 
+
+/*        restltats        */
+
+
 #results{
 	text-align:center;
 	width:900px;
 }
+
+.results{
+	margin-left:343px; 
+	background-image:url('img/grille.png');
+	background-repeat:no-repeat;
+	height:319px;
+	}
+.results li{
+	padding-top:30%;
+	height:319px;
 	
-	
+}
+.resultsthemes{
+	margin-left:17px;
+	height:319px;
+
+	}	
 	
 	
 #scores{
