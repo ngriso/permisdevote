@@ -54,7 +54,14 @@ var application = {
         var dirForBadgesThemes = {
             'div' : {
                 'statTheme <- statsTheme':{
-                    'li.resultsthemes img@src': "img/themes/#{statTheme.tag.namespace}.png"
+                    'li.resultsthemes img@src': "img/themes/#{statTheme.tag.namespace}.png",
+                    'li.prctthemes' : function(context) {
+                        if (context.item.answered === 0) {
+                            return "0 %";
+                        }
+                        var pourcentage = context.item.rights * 100 / context.item.answered;
+                        return pourcentage + " %";
+                    }
                 }
             }
         };
