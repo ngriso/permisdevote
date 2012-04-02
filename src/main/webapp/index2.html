@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="permis2.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/interface.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/pure.js"></script>
+    <script type="text/javascript" charset="utf-8" src="main2.js"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="elections 2012"/>
+    <title>Permis de vote</title>
+</head>
+
+<body>
+
+<div id="content">
+
+    <!--//////////////////  menu  ///////////////////-->
+    <div id="menu">
+
+        <h1><span class="menu"><a href="#">Inscription</a></span></h1>
+
+        <h1><span class="menu"><a href="#themes">Thèmes</a></span></h1>
+
+        <h1><span class="menu"><a href="#candi">Candidats</a></span></h1>
+
+        <h1><span class="menu"><a href="#questions">Questions</a></span></h1>
+
+        <h1><span class="menu"><a href="#results">Résultats</a></span></h1>
+
+        <hr style=" border-color:#CCC; width:100px; margin-top:30px; margin-bottom:30px;"/>
+
+        <h1 class="menu"><a href="#candi"><img src="img/logos/ok/bayrou.png" width="100" height="115"/></a></h1>
+
+        <hr style=" border-color:#000; border-style:dotted; width:100px; border-bottom:none; margin-top:10px; margin-bottom:10px; border-left:none; border-right:none;"/>
+
+        <h1><span class="menu">F. Hollande</span></h1><br/>
+
+        <h1 class="menu"><a href="#themes"><img src="img/logos/ok/item.png" width="100" height="80"/></a></h1>
+
+        <hr style=" border-color:#000; border-style:dotted; width:100px; border-bottom:none; margin-top:10px; margin-bottom:10px; border-left:none; border-right:none;"/>
+
+        <h1><span class="menu">Justice - Défense</span></h1>
+
+    </div>
+
+
+    <!--//////////////////  content  ///////////////////-->
+
+
+    <div id="container">
+        <div id="compt">
+            <img src="img/line3.png" width="900" height="150"/>
+
+            <div class="content">
+
+                <h4>Vous aviez le droit de vote,<br/> mais bientôt il faudra un permis.<br/>
+                    <br/>
+                    <span class="text">Choisissez un nom pseudo et un mot de passe. Vous pourez vous reconnecter avec.</span>
+                </h4>
+
+                <h1><span class="titre">Pseudo :</span><br/><input id="username" type="text" class="nom"/></h1>
+
+                <div class="field">
+                    <h4 class="field">
+                        <select id="activity" class="field1">
+                            <option value="NC">Activité</option>
+                            <option value="224">Etudiant</option>
+                            <option value="223">Fonctionnaire</option>
+                            <option value="222">Retraité</option>
+                            <option value="221">Sans emploi</option>
+                            <option value="220">Agriculteur</option>
+                            <option value="218">Cadres</option>
+                        </select>
+                        <select id="age">
+                            <option value="NC">Age</option>
+                            <option value="NC">18-25 ans</option>
+                            <option value="224">25-35 ans</option>
+                            <option value="223">35-45 ans</option>
+                            <option value="222">55-65 ans</option>
+                            <option value="221">+ de 65 ans</option>
+                        </select>
+                    </h4>
+                </div>
+
+                <h1><a href="#themes"><img src="img/next.png" width="46" height="46"/></a></h1>
+                <img src="img/line2.png" width="900" height="664"/>
+            </div>
+        </div>
+
+        <!--//////////////////  themes  ///////////////////-->
+        <div id="themes">
+            <img src="img/line3.png" width="900" height="150"/>
+
+            <div class="content">
+                <h1><a href="#compt"><img src="img/prev.png" width="46" height="46"/></a></h1>
+
+                <div class="themes">
+                    <li class="themes2"><img src="img/items/economie.png" width="40" height="30" alt="Economie"/></li>
+                </div>
+                <hr style=" border-color:#000; border-style:dotted; width:600px;; border-bottom:none; margin-bottom:10px; margin-top:50px; border-left:none; border-right:none; margin-left:360px;"/>
+                <span class="text">Vous avez choisi le thèmes :</span><br/>
+
+                <h1>Justice-Défense</h1><br/>
+
+                <h1><a href="#candi"><img src="img/next.png" width="46" height="46"/></a></h1>
+                <img src="img/line2.png" width="900" height="664"/>
+
+            </div>
+        </div>
+
+        <!--//////////////////  candidats  ///////////////////-->
+        <div id="candi">
+            <img src="img/line3.png" width="900" height="150"/>
+
+            <div class="content"><h1><a href="#themes"><img src="img/prev.png" width="46" height="46"/></a></h1>
+
+                <div class="candi">
+                    <li class="candi2"><img src="img/logos/ok/poutou1.png" width="48" height="55" alt="Philippe Poutou"/></li>
+                </div>
+                <br>
+                <hr style=" border-color:#000; border-style:dotted; width:600px;; border-bottom:none; margin-bottom:10px; margin-top:50px; border-left:none; border-right:none; margin-left:360px;"/>
+
+                <span class="text">Vous avez choisi le candidat :</span><br/>
+
+                <h1>François Hollande</h1><br/>
+
+                <h1><a href="#questions"><img src="img/next.png" width="46" height="46"/></a></h1>
+                <img src="img/line2.png" width="900" height="664"/>
+
+            </div>
+        </div>
+
+        <!--//////////////////  questions  ///////////////////-->
+        <div id="questions">
+            <img src="img/line3.png" width="900" height="150"/>
+
+            <div class="content">
+                <h1><a href="#candi"><img src="img/prev.png" width="46" height="46"/></a></h1>
+
+                <div class="questions questionCandidacyText hidden">
+                    <span data-selector="currentInfo">François Hollande</span>, <span class="text">concernant le domaine </span>
+                    <span data-selector="theme">bla bla bla</span><span class="text">, a dit:</span><br/>
+                    <span class="text" data-selector="question">{{= question.text}}</span><br/>
+                    <br/>
+                </div>
+                <div class="questions questionThemeText hidden">
+                    <span class="text">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,
+                    <span data-selector="candidate">François Hollande</span><span class="text"> a dit:</span><br/>
+                    <span class="text" data-selector="question">{{= question.text}}</span><br/><br/>
+                </div>
+
+                <div class="reponse">
+                    <li class="reponse2"><img src="img/logos/ok/vrai.png" width="46" height="46"/></li>
+                    <li class="reponse2"><img src="img/logos/ok/faux.png" width="46" height="46"/></li>
+                    <li class="reponse2"><img src="img/logos/ok/nsp.png" width="46" height="46"/></li>
+                </div>
+                <br/>
+
+                <h1 class="next"><a href="#results"><img src="img/next.png" width="46" height="46"/></a></h1>
+                <img src="img/line2.png" width="900" height="664"/>
+            </div>
+        </div>
+
+        <!--//////////////////  resultats  ///////////////////-->
+        <div id="results">
+
+            <img src="img/line3.png" width="900" height="150"/>
+
+            <div class="content"></div>
+            <h1>Résultats</h1>
+
+            <h1><a href="#compt"><img src="img/prev.png" width="46" height="46"/></a></h1>
+            <span class="next"><img src="img/line2.png" width="900" height="664"/></span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var scrolling = function() {
+        var speed = 700;
+        jQuery('a[href^="#"]').bind('click', function() {
+            var id = jQuery(this).attr('href');
+            if (id == '#')
+                goTo('body');
+            else
+                goTo(id);
+            return(false);
+        });
+        function goTo(ancre) {
+            jQuery('html,body').animate({scrollTop:jQuery(ancre).offset().top}, speed, 'swing', function() {
+                if (ancre != 'body')
+                    window.location.hash = ancre;
+                else
+                    window.location.hash = '#';
+                jQuery(ancre).attr('tabindex', '-1');
+                jQuery(ancre).focus();
+                jQuery(ancre).removeAttr('tabindex');
+            });
+        }
+    };
+    jQuery(function() {
+        scrolling();
+    });
+    $(document).ready(application.start);
+</script>
+
+</body>
+</html>

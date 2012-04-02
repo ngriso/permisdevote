@@ -12,10 +12,12 @@ public class CandidateJPA {
     public String id;
     public String firstName;
     public String lastName;
+    public String namespace;
 
     public static CandidateJPA build(Candidate candidate, CandidacyJPA candidacyJPA) {
         CandidateJPA candidateJPA = new CandidateJPA();
         candidateJPA.id = candidate.id;
+        candidateJPA.namespace = candidate.namespace;
         candidateJPA.firstName = candidate.firstName;
         candidateJPA.lastName = candidate.lastName;
         candidacyJPA.addCandidate(candidateJPA);
