@@ -22,7 +22,7 @@ var application = {
         var dirForThemes = {
             'li' :{
                 'theme <- themes' :{
-                    'img@src': "img/themes/#{theme.namespace}.png",
+                    'img@src': "img/themes/#{theme.namespace}1.png",
                     'img@alt': "theme.name",
                     '.@data-id': "theme.id",
                     '.@data-info': "theme.name"
