@@ -84,13 +84,13 @@ li{
 }
 .menu{			
 	font-family: 'Rokkitt', sherif;
-	font-weight:400px;
+	font-weight:400;
 	font-size:16px;
 	color:#000;
 }
 .menu a{			
 	font-family: 'Rokkitt', sherif;
-	font-weight:400px;
+	font-weight:400;
 	font-size:21px;
 	color:#000;
 
@@ -118,19 +118,24 @@ li{
 
 
 #container{
-	width:1000px;
-	left:350px;
+	left:450px;
 	position:absolute;
-
-
+}
+.line1{
+	width:22px;
+	height:150px;
+	border-right: dotted thin;
 	}
-	.next{clear:both;
-	margin-top:100px;}	
+.line2{
+	width:22px;
+	height:664px;
+	border-right: dotted thin;
+	}
+	
 	
 #compt{
 
 	width:900px;
-	text-align: center;
 }
 
 h4{
@@ -140,7 +145,6 @@ h4{
 	font-size:16px;
 	font-weight:400;
 	color: #000;
-	margin-left:320px;
 
 }
 .field{
@@ -169,7 +173,6 @@ h4{
 	font-size:30px;
 	font-weight:400;
 	color: #000;
-	text-align:center;
 	outline-style:none;
 }
 
@@ -297,16 +300,17 @@ h1 a:hover{
 }
 
 .results{
-	background-image:url('img/grille.png');
+	background-image:url('img/linestat.png');
 	background-repeat:no-repeat;
-	height:319px;
+	height:320px;
+	width:60px;
 	}
 .results li{
-	height:319px;
+	height:320px;
 	
 }
 .results li img{
-	margin-top:719%;
+	margin-top:50%;
 	
 }
 
@@ -364,5 +368,5 @@ a:hover{
 
 
 .hidden {
-    display: none;
+/*    display: none;*/
 }
