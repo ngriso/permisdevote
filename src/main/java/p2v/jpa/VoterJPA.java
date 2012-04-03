@@ -41,6 +41,7 @@ public class VoterJPA {
     }
 
     public static Map<String, String> activities = new HashMap<String, String>() {{
+        final String NC = "NC";
         final String Etudiant = "Etudiant";
         final String Fonctionnaire = "Fonctionnaire";
         final String Retraité = "Retraité";
@@ -51,6 +52,7 @@ public class VoterJPA {
     }};
 
     public static interface Ages {
+        final int NC = 0;
         final int entre_18_25 = 1;
         final int entre_26_35 = 2;
         final int entre_36_45 = 3;

@@ -17,6 +17,7 @@
         id varchar(255) not null,
         firstName varchar(255),
         lastName varchar(255),
+        namespace varchar(255),
         primary key (id)
     );
 
@@ -39,6 +40,7 @@
         rightAnswer boolean not null,
         text LONGVARCHAR,
         candidacy_id varchar(255),
+        candidacyCorrect_id varchar(255),
         tagLevel1_id varchar(255),
         primary key (id)
     );
@@ -97,6 +99,8 @@
 
     create table VoterJPA (
         id varchar(255) not null,
+        activity varchar(255),
+        age integer not null,
         username varchar(255),
         primary key (id)
     );
@@ -140,6 +144,11 @@
         add constraint FK9CE339F5F86CEDC1 
         foreign key (tagLevel1_id) 
         references TagJPA;
+
+    alter table QuestionJPA 
+        add constraint FK9CE339F5E1D480D8 
+        foreign key (candidacyCorrect_id) 
+        references CandidacyJPA;
 
     alter table QuestionJPA 
         add constraint FK9CE339F53ADE8F72 

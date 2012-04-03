@@ -31,12 +31,11 @@
 
     <hr style=" border-color:#CCC; width:100px; margin-top:30px; margin-bottom:30px;"/>
 
-    <h1 class="menu"><a href="#selection"><img class="current_permis" src="img/logos/ok/bayrou.png" width="100" height="115"/></a></h1>
-
-    <hr style=" border-color:#000; border-style:dotted; width:100px; border-bottom:none; margin-top:10px; margin-bottom:10px; border-left:none; border-right:none;"/>
-
-    <h1><span class="menu current_permis">F. Hollande</span></h1><br/>
-
+    <div class="current_permis hidden">
+        <h1 class="menu"><a href="#selection"><img class="current_permis" src="img/logos/ok/bayrou.png" width="100" height="115"/></a></h1>
+        <hr style=" border-color:#000; border-style:dotted; width:100px; border-bottom:none; margin-top:10px; margin-bottom:10px; border-left:none; border-right:none;"/>
+        <h1><span class="menu current_permis">F. Hollande</span></h1><br/>
+    </div>
 
 </div>
 
@@ -70,12 +69,13 @@
                         <option value="218">Cadres</option>
                     </select>
                     <select id="age">
-                        <option value="NC">Age</option>
-                        <option value="NC">18-25 ans</option>
-                        <option value="224">25-35 ans</option>
-                        <option value="223">35-45 ans</option>
-                        <option value="222">55-65 ans</option>
-                        <option value="221">+ de 65 ans</option>
+                        <option value="0">Age</option>
+                        <option value="1">18-25 ans</option>
+                        <option value="2">26-35 ans</option>
+                        <option value="3">36-45 ans</option>
+                        <option value="4">46-55 ans</option>
+                        <option value="5">56-65 ans</option>
+                        <option value="6">+ de 66 ans</option>
                     </select>
                 </h4>
 
@@ -140,11 +140,23 @@
         </div>
 
         <div class="reponse">
-            <li class="reponse2"><img src="img/logos/ok/vrai.png" width="46" height="46"/></li>
-            <li class="reponse2"><img src="img/logos/ok/faux.png" width="46" height="46"/></li>
+            <li class="reponse2" data-value="true"><img src="img/logos/ok/vrai.png" width="46" height="46"/></li>
+            <li class="reponse2" data-value="false"><img src="img/logos/ok/faux.png" width="46" height="46"/></li>
             <li class="reponse2"><img src="img/logos/ok/nsp.png" width="46" height="46"/></li>
         </div>
         <br/>
+
+        <div class="gotoNextQuestion hidden">
+            <br>
+
+            <h2 class="responseTextCorrect hidden">Réponse correcte</h2><br/>
+
+            <h2 class="responseTextIncorrect hidden">Réponse incorrecte</h2><br/>
+
+            <h2 class="responseTextComplet hidden">C'est <span class="responseCandidacy">MACHIN</span> qui a dit cela.</h2><br>
+            <input type="button" value="Question suivante">
+            <br>
+        </div>
 
         <h1><a href="#results"><img src="img/next.png" width="46" height="46"/></a></h1>
 

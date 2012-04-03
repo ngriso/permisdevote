@@ -79,7 +79,8 @@ var application = {
                 })
         ).done(function() {
                     $("#compt img").click(application.clickOnStartPermis);
-//                    $(":radio").click(application.clickOnResponse);
+                    $("div.reponse li").click(application.clickOnResponse);
+                    $("div.gotoNextQuestion :button").click(application.nextQuestion);
                 });
     },
     clickOnStartPermis : function() {
@@ -133,6 +134,7 @@ var application = {
             var srcImgPermis = srcImgPermis1.replace("1", "");
             $("img.current_permis").attr("src", srcImgPermis);
             $("span.current_permis").html(application.currentInfo);
+            $("div.current_permis").show();
             application.nextQuestion();
         });
     },
@@ -148,7 +150,6 @@ var application = {
             }
             $(".answers").show();
             $(".gotoNextQuestion").hide();
-            $("div.reponse li").click(application.clickOnResponse);
             $("#questions").show();
             $('a[href="#questions"]').click();
         });
@@ -174,18 +175,23 @@ var application = {
     clickOnResponse : function(event) {
         $(".answers").hide();
         $(".gotoNextQuestion").show();
-        $("div.question :button").click(application.nextQuestion);
-        var value = $(event.currentTarget).val();
+        var value = $(event.currentTarget).attr("data-value");
         var questionId = $("div.reponse").attr("data-questionId");
         var answerURL = application.urls.answer(questionId, value);
         $.get(answerURL, function(data) {
             application.renderBadges();
-            if (data) {
+            if (data.correct) {
                 $("h2.responseTextIncorrect").hide();
                 $("h2.responseTextCorrect").show();
             } else {
                 $("h2.responseTextCorrect").hide();
                 $("h2.responseTextIncorrect").show();
+            }
+            if (data.response === false) {
+                $("span.responseCandidacy").html(data.candidacyJPA.candidate1.firstName + " " + data.candidacyJPA.candidate1.lastName);
+                $("h2.responseTextComplet").show();
+            } else {
+                $("h2.responseTextComplet").hide();
             }
         });
     },

@@ -25,12 +25,16 @@ public class QuestionJPA {
     public CandidacyJPA candidacy;
 
     @ManyToOne
+    public CandidacyJPA candidacyCorrect;
+
+    @ManyToOne
     public TagJPA tagLevel1;
 
-    public static QuestionJPA build(PropositionJPA propositionJPA, CandidacyJPA candidacyJPA) {
+    public static QuestionJPA build(PropositionJPA propositionJPA, CandidacyJPA candidacyJPA, CandidacyJPA candidacyCorrect) {
         QuestionJPA questionJPA = new QuestionJPA();
         questionJPA.text = propositionJPA.text;
         questionJPA.candidacy = candidacyJPA;
+        questionJPA.candidacyCorrect = candidacyCorrect;
         questionJPA.rightAnswer = propositionJPA.candidacy.id.equals(candidacyJPA.id);
         questionJPA.tagLevel1 = propositionJPA.tagLevel1;
         JpaUtil.save(questionJPA);
