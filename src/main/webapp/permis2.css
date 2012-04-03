@@ -131,12 +131,13 @@ li{
 	height:664px;
 	border-right: dotted thin;
 	}
+#home{
+}	
 	
-	
-#compt{
-
-	width:900px;
+#compt{	width:900px;
 }
+
+
 
 h4{
 	width:263px;
@@ -145,8 +146,12 @@ h4{
 	font-size:16px;
 	font-weight:400;
 	color: #000;
-
 }
+.gris{font-family: 'Rokkitt', sherif;
+	font-size:16px;
+	font-weight:400;
+	color: #999;
+	}
 .field{
 	margin-right:30px;
 	width:400px;
@@ -367,5 +372,5 @@ a:hover{
 
 
 .hidden {
-    display: none;
+   /* display: none;*/
 }
