@@ -294,7 +294,6 @@ h1 a:hover{
 
 
 #results{
-	text-align:center;
 	width:900px;
 }
 
@@ -367,5 +366,5 @@ a:hover{
 
 
 .hidden {
-    display: none;
+    /*display: none;*/
 }
