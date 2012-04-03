@@ -176,6 +176,14 @@ var application = {
             $("#questions").show();
             $('a[href="#questions"]').click();
             $("div.reponse li").click(application.clickOnResponse);
+            $("div.reponse li").css({opacity:0.5});
+            $("div.reponse li").hover(function(){
+                $(this).css({opacity:1});
+
+            },function(){
+                $(this).css({opacity:0.5});
+
+            });
         });
     },
     renderQuestionTheme:function(data) {
@@ -197,6 +205,8 @@ var application = {
         $(".questionCandidacyText").show();
     },
     clickOnResponse : function(event) {
+        $("div.reponse li").unbind('mouseenter mouseleave');
+        $(event.currentTarget).css({ opacity: 1 });
         $("div.reponse li").off('click');
         $(".answers").hide();
         $(".gotoNextQuestion").show();
@@ -204,6 +214,7 @@ var application = {
         var questionId = $("div.reponse").attr("data-questionId");
         var answerURL = application.urls.answer(questionId, value);
         $.get(answerURL, function(data) {
+
             application.renderBadges();
             if (data.correct) {
                 $("h2.responseTextIncorrect").hide();
