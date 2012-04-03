@@ -141,15 +141,15 @@
         <h1><a href="#selection"><img src="img/prev.png" width="46" height="46"/></a></h1>
 
         <div class="questions questionCandidacyText hidden">
-            <span data-selector="currentInfo">François Hollande</span>, <span class="text">concernant le domaine </span>
-            <span data-selector="theme">bla bla bla</span><span class="text">, a dit:</span><br/>
-            <span class="text" data-selector="question">{{= question.text}}</span><br/>
+            <h1><span class="IntroQuestion" data-selector="currentInfo">François Hollande</span>, <span class="IntroQuestion">concernant le domaine </span></h1>
+            <span data-selector="theme">bla bla bla</span><span class="IntroQuestion">, a dit:</span><br/>
+            <h1><span data-selector="question">{{= question.text}}</span></h1><br/><br/>
             <br/>
         </div>
         <div class="questions questionThemeText hidden">
-            <span class="text">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,
-            <span data-selector="candidate">François Hollande</span><span class="text"> a dit:</span><br/>
-            <span class="text" data-selector="question">{{= question.text}}</span><br/><br/>
+            <h1><span class="IntroQuestion">Concernant le domaine </span><span data-selector="currentInfo">domaine</span>,</h1>
+            <span data-selector="candidate">François Hollande</span><span class="IntroQuestion"> a dit:</span><br/>
+            <h1><span data-selector="question">{{= question.text}}</span></h1><br/><br/>
         </div>
 
         <div class="reponse">
@@ -160,11 +160,10 @@
         <br/>
 
         <div class="gotoNextQuestion hidden">
-            <br>
 
-            <h2 class="responseTextCorrect hidden">Réponse correcte</h2><br/>
+            <h2 class="responseTextCorrect hidden">Réponse correcte</h2>
 
-            <h2 class="responseTextIncorrect hidden">Réponse incorrecte</h2><br/>
+            <h2 class="responseTextIncorrect hidden">Réponse incorrecte</h2>
 
             <h2 class="responseTextComplet hidden">C'est <span class="responseCandidacy">MACHIN</span> qui a dit cela.</h2><br>
         <h1><a><img src="img/questionsuivante.png" width="46" height="46"/></a></h1>            <br>
