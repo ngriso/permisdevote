@@ -17,6 +17,7 @@
         id varchar(255) not null,
         firstName varchar(255),
         lastName varchar(255),
+        namespace varchar(255),
         primary key (id)
     );
 
