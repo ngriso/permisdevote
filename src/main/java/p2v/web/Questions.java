@@ -2,6 +2,7 @@ package p2v.web;
 
 import com.sun.jersey.api.NotFoundException;
 import org.apache.commons.lang3.StringUtils;
+import p2v.jpa.CandidacyJPA;
 import p2v.jpa.JpaUtil;
 import p2v.jpa.QuestionJPA;
 import p2v.jpa.ResponseJPA;
@@ -47,22 +48,33 @@ public class Questions {
     }
 
     /**
-     * 
      * @param questionId question id
      * @param type String - candidacyId ou tagId 
      * @param answer String
+     * @param request     request
      * @return boolean true if the answer if correct
      */
     @Path("{questionId}/answer")
     @GET
-    public boolean answer(@PathParam("questionId") Long questionId,
+    public Answer answer(@PathParam("questionId") Long questionId,
     		@QueryParam("type") String type,
     		@QueryParam("answer") String answer, 
     		@Context HttpServletRequest request) {
         VoterJPA voter = (VoterJPA) RootResource.getSession(request).getAttribute(RootResource.KEY_FOR_VOTER);
         QuestionJPA questionJPA = JpaUtil.findById(QuestionJPA.class, questionId);
         ResponseJPA response = voter.answer(questionJPA, type, answer);
-        return response.correct;
+        return new Answer(response.correct, questionJPA.rightAnswer, questionJPA.candidacyCorrect);
     }
 
+    public static class Answer {
+        public boolean correct;
+        public boolean response;
+        public CandidacyJPA candidacyJPA;
+
+        public Answer(boolean correct, boolean response, CandidacyJPA candidacyJPA) {
+            this.correct = correct;
+            this.response = response;
+            this.candidacyJPA = candidacyJPA;
+        }
+    }
 }

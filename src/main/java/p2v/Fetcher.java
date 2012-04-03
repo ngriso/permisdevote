@@ -83,7 +83,7 @@ public class Fetcher {
             public void run() {
                 CandidacyJPA candidacyJPA = JpaUtil.update(candidacy);
                 for (PropositionJPA propositionJPA : myPropositions) {
-                    QuestionJPA.build(propositionJPA, candidacyJPA);
+                    QuestionJPA.build(propositionJPA, candidacyJPA, candidacyJPA);
                 }
             }
         });
@@ -100,7 +100,7 @@ public class Fetcher {
             public void run() {
                 CandidacyJPA candidacyJPA = JpaUtil.update(candidacy);
                 for (PropositionJPA propositionJPA : Iterables.limit(othersPropositions, myPropositions.size())) {
-                    QuestionJPA.build(propositionJPA, candidacyJPA);
+                    QuestionJPA.build(propositionJPA, candidacyJPA, propositionJPA.candidacy);
                 }
             }
         });
