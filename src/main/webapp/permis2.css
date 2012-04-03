@@ -261,7 +261,6 @@ h1 a:hover{
 .themes2{
 	opacity:1;
 	list-style:none;
-	float:none;
 	text-align:left;
 	}
 	
@@ -280,7 +279,12 @@ h1 a:hover{
 
 .candi{
 	width: 700px; 
+<<<<<<< HEAD
 	margin-top:10px; 
+=======
+	margin-top:20px;
+    float: left;
+>>>>>>> 99d50e092a9da6665c866bc5fb9734235b3f8f03
 }
 .candi2{
 	opacity:1;

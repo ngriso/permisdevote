@@ -100,7 +100,7 @@ var application = {
                 })
         ).done(function() {
                     $("#compt img").click(application.clickOnStartPermis);
-                    $("div.gotoNextQuestion :button").click(application.nextQuestion);
+                    $("div.gotoNextQuestion img").click(application.nextQuestion);
                     $(".printMesPermisThemes").click(application.printResultsThemes);
                     $(".printMesPermisCandidacies").click(application.printResultsCandidacies);
                 });
