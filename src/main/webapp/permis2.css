@@ -256,9 +256,10 @@ h1 a:hover{
 		width:700px;
 		margin-top:70px;
 		}
-#li{ list-style:none;}
+li{}
 .themes2{
 	opacity:1;
+	
 	list-style:none;
 
 	}
@@ -277,7 +278,7 @@ h1 a:hover{
 	width: 700px; 
 	margin-top:20px; 
 }
-#li{}
+li{}
 .candi2{
 	opacity:1; 
 	margin-left:10px;
