@@ -132,8 +132,8 @@ li{
 	border-right: dotted thin;
 	}
 #home{
-}	
-	
+}
+
 #compt{	width:900px;
 }
 
@@ -361,16 +361,18 @@ a{font-family: Verdana, Geneva, sans-serif;
 	font-size:10px;
 	color:#5a7179;
 }
+/*
 a:hover{
 	font-family: Verdana, Geneva, sans-serif;
 	font-size:10px;
 	color:#FFF;
 }
+*/
 
 
 
 
 
 .hidden {
-   /* display: none;*/
+    display: none;
 }

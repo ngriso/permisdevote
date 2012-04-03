@@ -44,28 +44,49 @@ var application = {
         application.templates.listCandidacies = $("div.candi").compile(dirForCandidacies);
 
         var dirForBadgesCandidacies = {
-            'li' : {
-                'statCandiday <- statsCandidacy':{
-                    '.': "#{statCandiday.candidacy.candidate1.firstName} #{statCandiday.candidacy.candidate1.lastName} #{statCandiday.rights} / #{statCandiday.answered}"
-                }
-            }
-        };
-//        application.cachedTemplateForBadgesCandidacies = $("div.results").compile(dirForBadgesCandidacies);
-        var dirForBadgesThemes = {
             'div' : {
-                'statTheme <- statsTheme':{
-                    'li.resultsthemes img@src': "img/themes/#{statTheme.tag.namespace}.png",
+                'statCandiday <- statsCandidacy':{
+                    'li.resultsthemes img@src': "img/candidates/#{statCandiday.candidacy.candidate1.namespace}1.png",
                     'li.prctthemes' : function(context) {
                         if (context.item.answered === 0) {
                             return "0 %";
                         }
                         var pourcentage = context.item.rights * 100 / context.item.answered;
-                        return pourcentage + " %";
+                        return Math.round(pourcentage) + " %";
+                    },
+                    'li.resultsthemes img@style': function(context) {
+                        if (context.item.answered === 0) {
+                            return "margin-top: 265px;"
+                        }
+                        var marginTop = (1 - context.item.rights / context.item.answered) * 265;
+                        return "margin-top: " + marginTop +"px;"
                     }
                 }
             }
         };
-        application.cachedTemplateForBadgesThemes = $("div.results").compile(dirForBadgesThemes);
+        application.templates.resultsCandidacies = $("div.resultsCandidacies").compile(dirForBadgesCandidacies);
+        var dirForBadgesThemes = {
+            'div' : {
+                'statTheme <- statsTheme':{
+                    'li.resultsthemes img@src': "img/themes/#{statTheme.tag.namespace}1.png",
+                    'li.prctthemes' : function(context) {
+                        if (context.item.answered === 0) {
+                            return "0 %";
+                        }
+                        var pourcentage = context.item.rights * 100 / context.item.answered;
+                        return Math.round(pourcentage) + " %";
+                    },
+                    'li.resultsthemes img@style': function(context) {
+                        if (context.item.answered === 0) {
+                            return "margin-top: 290px;"
+                        }
+                        var marginTop = (1 - context.item.rights / context.item.answered) * 290;
+                        return "margin-top: " + marginTop +"px;"
+                    }
+                }
+            }
+        };
+        application.cachedTemplateForBadgesThemes = $("div.resultsThemes").compile(dirForBadgesThemes);
     },
     start : function() {
         $.smAnchor(null);
@@ -79,7 +100,9 @@ var application = {
                 })
         ).done(function() {
                     $("#compt img").click(application.clickOnStartPermis);
-//                    $(":radio").click(application.clickOnResponse);
+                    $("div.gotoNextQuestion :button").click(application.nextQuestion);
+                    $(".printMesPermisThemes").click(application.printResultsThemes);
+                    $(".printMesPermisCandidacies").click(application.printResultsCandidacies);
                 });
     },
     clickOnStartPermis : function() {
@@ -117,6 +140,7 @@ var application = {
             var srcImgPermis = srcImgPermis1.replace("1", "");
             $("img.current_permis").attr("src", srcImgPermis);
             $("span.current_permis").html(application.currentInfo);
+            $("div.current_permis").show();
             application.nextQuestion();
         });
     },
@@ -133,6 +157,7 @@ var application = {
             var srcImgPermis = srcImgPermis1.replace("1", "");
             $("img.current_permis").attr("src", srcImgPermis);
             $("span.current_permis").html(application.currentInfo);
+            $("div.current_permis").show();
             application.nextQuestion();
         });
     },
@@ -148,9 +173,9 @@ var application = {
             }
             $(".answers").show();
             $(".gotoNextQuestion").hide();
-            $("div.reponse li").click(application.clickOnResponse);
             $("#questions").show();
             $('a[href="#questions"]').click();
+            $("div.reponse li").click(application.clickOnResponse);
         });
     },
     renderQuestionTheme:function(data) {
@@ -172,30 +197,49 @@ var application = {
         $(".questionCandidacyText").show();
     },
     clickOnResponse : function(event) {
+        $("div.reponse li").off('click');
         $(".answers").hide();
         $(".gotoNextQuestion").show();
-        $("div.question :button").click(application.nextQuestion);
-        var value = $(event.currentTarget).val();
+        var value = $(event.currentTarget).attr("data-value");
         var questionId = $("div.reponse").attr("data-questionId");
         var answerURL = application.urls.answer(questionId, value);
         $.get(answerURL, function(data) {
             application.renderBadges();
-            if (data) {
+            if (data.correct) {
                 $("h2.responseTextIncorrect").hide();
                 $("h2.responseTextCorrect").show();
             } else {
                 $("h2.responseTextCorrect").hide();
                 $("h2.responseTextIncorrect").show();
             }
+            if (data.response === false) {
+                $("span.responseCandidacy").html(data.candidacyJPA.candidate1.firstName + " " + data.candidacyJPA.candidate1.lastName);
+                $("h2.responseTextComplet").show();
+            } else {
+                $("h2.responseTextComplet").hide();
+            }
         });
     },
     renderBadges:function() {
         var voterStatsURL = application.urls.voter_stats;
         $.get(voterStatsURL, function(data) {
-//            $("div.badges h2.badgesCandidacies").render(data, application.cachedTemplateForBadgesCandidacies);
-            $("div.results").render(data, application.cachedTemplateForBadgesThemes);
+            $("div.resultsThemes").render(data, application.cachedTemplateForBadgesThemes);
+            $("div.resultsCandidacies").render(data, application.templates.resultsCandidacies);
+            if (application.data.currentType === 'tagId') {
+                application.printResultsThemes();
+            } else {
+                application.printResultsCandidacies();
+            }
             $("#results").show();
         });
+    },
+    printResultsThemes:function() {
+        $("div.resultsThemes").show();
+        $("div.resultsCandidacies").hide();
+    },
+    printResultsCandidacies:function() {
+        $("div.resultsThemes").hide();
+        $("div.resultsCandidacies").show();
     }
 };
 
