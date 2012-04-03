@@ -253,16 +253,19 @@ h1 a:hover{
 	 }
 
 .themes{
-		width:700px;
-		margin-top:70px;
-		}
+	clear:both;
+	width:700px;
+	margin-top:70px;
+	}
+	
 .themes2{
 	opacity:1;
-	
 	list-style:none;
-
 	}
-.themes2:hover{opacity:0.5;}
+	
+.themes2:hover{
+	opacity:0.5;
+	}
 
 /*     candi    */
 
@@ -278,8 +281,8 @@ h1 a:hover{
 	margin-top:20px; 
 }
 .candi2{
-	opacity:1; 
-	margin-left:10px;
+	opacity:1;
+	margin-right:10px;
 	margin-bottom:60px;	 
 	list-style:none;
 	}
@@ -409,5 +412,4 @@ a:hover{
 
 
 .hidden {
-    display: none;
-}
+   display: none;
