@@ -198,6 +198,8 @@ h1{
 	color: #000;
 	clear:both;
 }
+.intro{font-size:15px;
+color:#999;}
 .gris{color:#999;}
 .titre{
 	margin-top:15px;
@@ -305,14 +307,24 @@ h1 a:hover{
 	margin-top:40px;
 	margin-bottom:30px;	
 }
-.IntroQuestion{font-family: 'Rokkitt', sherif;
+.IntroQuestion{
+	font-family: 'Rokkitt', sherif;
 	font-size:18px;
 	font-weight:400;
-	color: #666;}
+	color: #666;
+	}
 .reponse{width: 200px;
 }
-.reponse2{opacity:0.5; float:left; list-style:none; margin-right:15px;}
-.reponse2:hover{opacity:1;}
+.reponse2{
+	opacity:0.5;
+	float:left;
+	list-style:none;
+	margin-right:15px;
+	}
+.reponse2:hover{
+	opacity:1;
+	}
+	
 
 h2{	font-family: 'Rokkitt', sherif;
 	font-size:24px;
@@ -419,5 +431,5 @@ a:hover{
 
 
 .hidden {
-   display: none;
+  /* display: none;
 }
