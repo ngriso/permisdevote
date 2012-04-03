@@ -50,7 +50,7 @@ background-color: #FFF;
 	width:200px;
 	margin-left:-100px;
 	position:absolute;
-}
+}*/
 
 li{
 	float:left;
@@ -63,7 +63,7 @@ li{
 	font-weight:700;
 	color:#999;
 
-}*/
+}
 
 
 
@@ -256,7 +256,6 @@ h1 a:hover{
 		width:700px;
 		margin-top:70px;
 		}
-li{}
 .themes2{
 	opacity:1;
 	
@@ -278,7 +277,6 @@ li{}
 	width: 700px; 
 	margin-top:20px; 
 }
-li{}
 .candi2{
 	opacity:1; 
 	margin-left:10px;
@@ -411,5 +409,5 @@ a:hover{
 
 
 .hidden {
-    /*display: none;*/
+    display: none;
 }
