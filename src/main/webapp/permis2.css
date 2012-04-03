@@ -261,6 +261,8 @@ h1 a:hover{
 .themes2{
 	opacity:1;
 	list-style:none;
+	float:none;
+	text-align:left;
 	}
 	
 .themes2:hover{
@@ -412,4 +414,4 @@ a:hover{
 
 
 .hidden {
-   display: none;
+   /*display: none;
